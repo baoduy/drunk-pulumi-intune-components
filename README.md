@@ -1,2 +1,9 @@
 # drunk-pulumi-intune-components
-the pulumi compoment for Microsoft Intune
+
+The Microsoft Intune Pulumi Components
+
+1. Import Microsoft Intune Organization
+
+```base
+
+```

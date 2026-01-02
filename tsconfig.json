@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "outDir": "./bin",
+    "target": "ESNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "inlineSourceMap": true,
+    "stripInternal": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": false
+  },
+  "exclude": ["node_modules", "**/__tests__"],
+  "files": [
+    "src/base/BaseComponent.ts",
+    "src/base/BaseProvider.ts",
+    "src/base/index.ts",
+    "src/index.ts",
+    "src/types.ts"
+  ]
+}
