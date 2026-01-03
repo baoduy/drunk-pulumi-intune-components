@@ -4,8 +4,8 @@ import {MacCompliancePolicyInputs, MacCompliancePolicyResource} from "./devices/
 import * as types from "./types";
 
 export interface IntuneManagementArgs {
-    compliancePolices:{
-        macOs?:types.AsInput<MacCompliancePolicyInputs>
+    compliancePolices?: {
+        macOs?: types.AsInput<MacCompliancePolicyInputs>
     }
 }
 
@@ -19,9 +19,13 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         return {};
     }
 
-    private createDevicePolicies(){
-        const {compliancePolices}= this.args;
-        if(compliancePolices.macOs)
-         new MacCompliancePolicyResource(`${this.name}-compliance-policy`,compliancePolices.macOs, {...this.opts, parent:this});
+    private createDevicePolicies() {
+        const {compliancePolices} = this.args;
+        if (compliancePolices?.macOs) {
+            const policy = new MacCompliancePolicyResource(`${this.name}-compliance-policy`, compliancePolices.macOs, {
+                ...this.opts,
+                parent: this
+            });
+        }
     }
 }

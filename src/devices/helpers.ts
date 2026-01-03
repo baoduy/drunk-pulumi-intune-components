@@ -1,15 +1,16 @@
-import {MacCompliancePolicyInputs} from "./MacCompliancePolicy";
-import {MacDeviceCompliance} from "./types";
-
+import {MacCompliancePolicyInputs} from './MacCompliancePolicy';
+import {MacDeviceCompliance} from './types';
 
 export function createMacCompliancePayload(args: MacCompliancePolicyInputs): MacDeviceCompliance {
-    const {displayName, description,assignments, scheduledActions, ...props} = args;
+    const {displayName, description, passwordRequired, scheduledActions, ...props} = args;
+    const requiredPassword = passwordRequired ?? true;
+
     return {
-        "@odata.type": "#microsoft.graph.macOSCompliancePolicy",
+        '@odata.type': '#microsoft.graph.macOSCompliancePolicy',
         roleScopeTagIds: ['0'],
         description: description ?? 'Compliance policy for MacOS devices',
         displayName: displayName ?? 'MACOS Compliance Policy',
-        passwordRequired: true,
+        passwordRequired: requiredPassword,
         passwordBlockSimple: true,
         //passwordExpirationDays: null,
         passwordMinimumLength: 8,
@@ -28,10 +29,9 @@ export function createMacCompliancePayload(args: MacCompliancePolicyInputs): Mac
         firewallEnabled: true,
         firewallBlockAllIncoming: false,
         firewallEnableStealthMode: false,
-
         //Allows to override default values
         ...props,
-        // assignments:assignments?? [
+        // assignments: assignments ?? [
         //     {
         //         id: `${id}_adadadad-808e-44e2-905a-0b7873a8a531`,
         //         source: 'direct',
@@ -51,27 +51,28 @@ export function createMacCompliancePayload(args: MacCompliancePolicyInputs): Mac
         //         },
         //     },
         // ],
-        // scheduledActionsForRule: [
-        //     {
-        //         id: id,
-        //         ruleName: 'Default Rule',
-        //         scheduledActionConfigurations: [
-        //             {
-        //                 id: 'a0f86254-80d4-450c-91c5-e190c2e48227',
-        //                 gracePeriodHours: scheduledActions?.markDeviceNoncompliantHours ?? 2 * 24, //2 days
-        //                 actionType: 'block',
-        //                 notificationTemplateId: '00000000-0000-0000-0000-000000000000',
-        //                 notificationMessageCCList: [],
-        //             },
-        //             {
-        //                 id: '5116a38a-f2f2-41ad-bdea-594424382693',
-        //                 gracePeriodHours: scheduledActions?.remotelyLockNoncompliantDeviceHours ?? 2 * 24, //2 days
-        //                 actionType: 'remoteLock',
-        //                 notificationTemplateId: '00000000-0000-0000-0000-000000000000',
-        //                 notificationMessageCCList: [],
-        //             },
-        //         ],
-        //     },
-        // ],
+        scheduledActionsForRule: [
+            {
+                ruleName: null,
+                scheduledActionConfigurations: [
+                    {
+                        actionType: 'block',
+                        gracePeriodHours: scheduledActions?.markDeviceNoncompliantDays
+                            ? scheduledActions.markDeviceNoncompliantDays * 24
+                            : 0,
+                        notificationTemplateId: '00000000-0000-0000-0000-000000000000',
+                        notificationMessageCCList: [],
+                    },
+                    {
+                        actionType: 'remoteLock',
+                        gracePeriodHours: scheduledActions?.remotelyLockNoncompliantDeviceDays
+                            ? scheduledActions.remotelyLockNoncompliantDeviceDays * 24
+                            : 0,
+                        notificationTemplateId: '00000000-0000-0000-0000-000000000000',
+                        notificationMessageCCList: [],
+                    },
+                ],
+            },
+        ],
     };
 }

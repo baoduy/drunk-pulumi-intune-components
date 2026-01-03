@@ -1,0 +1,27 @@
+{
+    "id": "64270701-fccc-42e2-959a-7d9e3d9fff54",
+    "displayName": "MACOS Compliance Policy",
+    "description": "Compliance policy for MacOS devices",
+    "roleScopeTagIds": [
+        "0"
+    ],
+    "@odata.type": "#microsoft.graph.macOSCompliancePolicy",
+    "passwordRequired": true,
+    "passwordBlockSimple": true,
+    "passwordMinimumLength": 8,
+    "passwordMinimumCharacterSetCount": 1,
+    "passwordRequiredType": "deviceDefault",
+    "osMinimumVersion": "14",
+    "osMaximumVersion": "26.2",
+    "systemIntegrityProtectionEnabled": true,
+    "deviceThreatProtectionEnabled": true,
+    "deviceThreatProtectionRequiredSecurityLevel": "secured",
+    "advancedThreatProtectionRequiredSecurityLevel": "secured",
+    "storageRequireEncryption": true,
+    "gatekeeperAllowedAppSource": "macAppStoreAndIdentifiedDevelopers",
+    "firewallEnabled": true,
+    "firewallBlockAllIncoming": false,
+    "firewallEnableStealthMode": false,
+    "assignments@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/deviceCompliancePolicies('64270701-fccc-42e2-959a-7d9e3d9fff54')/microsoft.graph.macOSCompliancePolicy/assignments",
+    "scheduledActionsForRule@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/deviceCompliancePolicies('64270701-fccc-42e2-959a-7d9e3d9fff54')/microsoft.graph.macOSCompliancePolicy/scheduledActionsForRule(scheduledActionConfigurations())"
+}
