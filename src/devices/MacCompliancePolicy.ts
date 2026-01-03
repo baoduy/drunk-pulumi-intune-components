@@ -1,7 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseOptions, BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
-import {createMacCompliancePayload} from './helpers';
+import deviceHelpers from './helpers';
 import {MacDeviceCompliance} from './types';
 
 export interface MacCompliancePolicyInputs
@@ -27,7 +27,7 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
         const rs = await graphRequest(
             `beta/deviceManagement/deviceCompliancePolicies`,
             'POST',
-            createMacCompliancePayload(inputs),
+            deviceHelpers.createMacCompliancePayload(inputs),
         ).catch((error) => {
             console.error('deviceCompliancePolicies', error);
             throw error;
@@ -42,7 +42,7 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
     ): Promise<pulumi.dynamic.UpdateResult> {
         //Get current payload
         const current = await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'GET');
-        const {scheduledActionsForRule} = createMacCompliancePayload(news);
+        const {scheduledActionsForRule} = deviceHelpers.createMacCompliancePayload(news);
         //Update Schedule Actions
         await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}/scheduleActionsForRules`, 'POST', {
             deviceComplianceScheduledActionForRules: scheduledActionsForRule,

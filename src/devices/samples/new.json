@@ -1,25 +1,46 @@
+//PATCH https://graph.microsoft.com/beta/deviceManagement/deviceEnrollmentConfigurations/d1d30cb8-3f6d-4261-a1b6-9d9de7dfde6c_DefaultPlatformRestrictions
 {
-    "assignments": [
-        {
-            "target": {
-                "@odata.type": "#microsoft.graph.groupAssignmentTarget",
-                "groupId": "70fcefb9-7dc6-4a94-b5d7-c6dfbcfe7a06"
-            }
-        }
-    ]
-}
-
-{
-    "assignments": [
-        {
-            "target": {
-                "@odata.type": "#microsoft.graph.allDevicesAssignmentTarget"
-            }
-        },
-        {
-            "target": {
-                "@odata.type": "#microsoft.graph.allLicensedUsersAssignmentTarget"
-            }
-        }
-    ]
+    "@odata.type": "#microsoft.graph.deviceEnrollmentPlatformRestrictionsConfiguration",
+    "androidRestriction": {
+        "platformBlocked": true,
+        "personalDeviceEnrollmentBlocked": false,
+        "osMinimumVersion": "",
+        "osMaximumVersion": "",
+        "blockedManufacturers": []
+    },
+    "androidForWorkRestriction": {
+        "platformBlocked": true,
+        "personalDeviceEnrollmentBlocked": false,
+        "osMinimumVersion": "",
+        "osMaximumVersion": "",
+        "blockedManufacturers": []
+    },
+    "iosRestriction": {
+        "platformBlocked": true,
+        "personalDeviceEnrollmentBlocked": false,
+        "osMinimumVersion": "",
+        "osMaximumVersion": "",
+        "blockedManufacturers": []
+    },
+    "macOSRestriction": {
+        "platformBlocked": false,
+        "personalDeviceEnrollmentBlocked": true,
+        "osMinimumVersion": null,
+        "osMaximumVersion": null,
+        "blockedManufacturers": []
+    },
+    "windowsRestriction": {
+        "platformBlocked": false,
+        "personalDeviceEnrollmentBlocked": true,
+        "osMinimumVersion": "10.0",
+        "osMaximumVersion": "12.0",
+        "blockedManufacturers": []
+    },
+    "windowsHomeSkuRestriction": {
+        "platformBlocked": false,
+        "personalDeviceEnrollmentBlocked": true,
+        "osMinimumVersion": null,
+        "osMaximumVersion": null,
+        "blockedManufacturers": []
+    }
 }

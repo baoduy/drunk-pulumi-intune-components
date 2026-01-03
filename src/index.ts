@@ -1,1 +1,2 @@
-export * from './IntuneManagement'
+export * from './IntuneManagement';
+export * as devices from './devices';

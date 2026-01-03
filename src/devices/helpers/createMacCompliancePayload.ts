@@ -1,7 +1,7 @@
-import {MacCompliancePolicyInputs} from './MacCompliancePolicy';
-import {MacDeviceCompliance} from './types';
+import {MacCompliancePolicyInputs} from '../MacCompliancePolicy';
+import {MacDeviceCompliance} from '../types';
 
-export function createMacCompliancePayload(args: MacCompliancePolicyInputs): MacDeviceCompliance {
+export const createMacCompliancePayload = (args: MacCompliancePolicyInputs): MacDeviceCompliance => {
     const {displayName, description, passwordRequired, scheduledActions, ...props} = args;
     const requiredPassword = passwordRequired ?? true;
 
@@ -31,26 +31,6 @@ export function createMacCompliancePayload(args: MacCompliancePolicyInputs): Mac
         firewallEnableStealthMode: false,
         //Allows to override default values
         ...props,
-        // assignments: assignments ?? [
-        //     {
-        //         id: `${id}_adadadad-808e-44e2-905a-0b7873a8a531`,
-        //         source: 'direct',
-        //         sourceId: id,
-        //         target: {
-        //             deviceAndAppManagementAssignmentFilterId: null,
-        //             deviceAndAppManagementAssignmentFilterType: 'none',
-        //         },
-        //     },
-        //     {
-        //         id: `${id}_acacacac-9df4-4c7d-9d50-4ef0226f57a9`,
-        //         source: 'direct',
-        //         sourceId: id,
-        //         target: {
-        //             deviceAndAppManagementAssignmentFilterId: null,
-        //             deviceAndAppManagementAssignmentFilterType: 'none',
-        //         },
-        //     },
-        // ],
         scheduledActionsForRule: [
             {
                 ruleName: null,
