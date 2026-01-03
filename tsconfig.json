@@ -27,6 +27,7 @@
     "src/base/BaseComponent.ts",
     "src/base/BaseProvider.ts",
     "src/base/index.ts",
+    "src/devices/CompliancePolicyAssignment.ts",
     "src/devices/MacCompliancePolicy.ts",
     "src/devices/helpers.ts",
     "src/devices/types.ts",

@@ -2,10 +2,16 @@ import {BaseComponent} from './base';
 import * as pulumi from '@pulumi/pulumi';
 import {MacCompliancePolicyInputs, MacCompliancePolicyResource} from "./devices/MacCompliancePolicy";
 import * as types from "./types";
+import {
+    CompliancePolicyAssignmentInputs,
+    CompliancePolicyAssignmentResource
+} from "./devices/CompliancePolicyAssignment";
 
 export interface IntuneManagementArgs {
     compliancePolices?: {
-        macOs?: types.AsInput<MacCompliancePolicyInputs>
+        macOs?: types.AsInput<MacCompliancePolicyInputs> & {
+            assignments?: types.AsInput<Omit<CompliancePolicyAssignmentInputs, 'compliancePolicyId'>>
+        }
     }
 }
 
@@ -22,10 +28,23 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
     private createDevicePolicies() {
         const {compliancePolices} = this.args;
         if (compliancePolices?.macOs) {
-            const policy = new MacCompliancePolicyResource(`${this.name}-compliance-policy`, compliancePolices.macOs, {
+            const {assignments, ...others} = compliancePolices.macOs;
+            const policy = new MacCompliancePolicyResource(`${this.name}-mac-compliance-policy`, others, {
                 ...this.opts,
-                parent: this
+                parent: this,
+                deleteBeforeReplace: true,
             });
+
+            if (assignments)
+                new CompliancePolicyAssignmentResource(`${this.name}-mac-compliance-assignment`, {
+                    ...assignments,
+                    compliancePolicyId: policy.id
+                }, {
+                    dependsOn: policy,
+                    deletedWith: policy,
+                    deleteBeforeReplace: true,
+                    parent: this
+                });
         }
     }
 }
