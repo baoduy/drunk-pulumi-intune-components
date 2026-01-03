@@ -1,0 +1,30 @@
+{
+    "id": "00000000-0000-0000-0000-000000000000",
+    "displayName": "MacOS Compliance Policy",
+    "roleScopeTagIds": [
+        "0"
+    ],
+    "@odata.type": "#microsoft.graph.macOSCompliancePolicy",
+    "scheduledActionsForRule": [
+        {
+            "ruleName": "PasswordRequired",
+            "scheduledActionConfigurations": [
+                {
+                    "actionType": "block",
+                    "gracePeriodHours": 0,
+                    "notificationTemplateId": "",
+                    "notificationMessageCCList": []
+                }
+            ]
+        }
+    ],
+    "gatekeeperAllowedAppSource": "macAppStoreAndIdentifiedDevelopers",
+    "passwordRequiredType": "deviceDefault",
+    "systemIntegrityProtectionEnabled": true,
+    "osMinimumVersion": "14",
+    "passwordRequired": true,
+    "passwordBlockSimple": true,
+    "passwordMinimumCharacterSetCount": 1,
+    "storageRequireEncryption": true,
+    "firewallEnabled": true
+}

@@ -18,11 +18,19 @@
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": false
   },
-  "exclude": ["node_modules", "**/__tests__"],
+  "exclude": [
+    "node_modules",
+    "**/__tests__"
+  ],
   "files": [
+    "src/IntuneManagement.ts",
     "src/base/BaseComponent.ts",
     "src/base/BaseProvider.ts",
     "src/base/index.ts",
+    "src/devices/MacCompliancePolicy.ts",
+    "src/devices/helpers.ts",
+    "src/devices/types.ts",
+    "src/helpers.ts",
     "src/index.ts",
     "src/types.ts"
   ]
