@@ -67,7 +67,8 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
     }
 
     public async delete(id: string, props: MacCompliancePolicyInputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE');
+        await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE')
+            .catch(error => console.error('deviceCompliancePolicies', error));
     }
 }
 

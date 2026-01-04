@@ -40,7 +40,10 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
         const {assignments} = this.args;
 
         if (args.type === 'DeviceConfiguration')
-            return new DeviceConfiguration(`${this.name}-${args.name}`, {...args.config, assignments}, {parent: this});
+            return new DeviceConfiguration(`${this.name}-${args.name.replace(/\s+/g, '').toLowerCase()}`, {
+                ...args.config,
+                assignments
+            }, {parent: this});
 
         return this.createCustomConfig(args.name, args.config);
     }
@@ -48,12 +51,12 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
     private createCustomConfig(name: string, config: CustomConfiguration | CustomTrustedCertificate) {
         const {assignments} = this.args;
 
-        const policy = new CustomPolicyResource(`${this.name}-${name}-config`, {
+        const policy = new CustomPolicyResource(`${this.name}-${name.replace(/\s+/g, '').toLowerCase()}-config`, {
             config,
         }, {...this.opts, parent: this});
 
         if (assignments) {
-            new ConfigurationPolicyAssignmentResource(`${this.name}-${name}-assignment`, {
+            new ConfigurationPolicyAssignmentResource(`${this.name}-${name.replace(/\s+/g, '').toLowerCase()}-assignment`, {
                 ...assignments,
                 configPolicyId: policy.id,
                 configType: 'deviceConfigurations'

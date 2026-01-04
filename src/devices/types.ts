@@ -71,9 +71,7 @@ export type SimpleSettingValue = {
     readonly value?: number | string;
     readonly settingValueTemplateReference?: SettingValueTemplateReference;
 };
-export type TemplateReference = {
-    readonly templateId?: string;
-};
+export type TemplateReference = any;
 
 type CustomConfigurationBase = {
     readonly id?: string;

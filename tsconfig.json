@@ -36,6 +36,7 @@
     "src/devices/CorporateDeviceIdentifiers.ts",
     "src/devices/CustomPolicy.ts",
     "src/devices/DefaultPlatformRestrictions.ts",
+    "src/devices/DeviceCatalogs.ts",
     "src/devices/MacCompliancePolicy.ts",
     "src/devices/helpers/createMacAntivirusPayload.ts",
     "src/devices/helpers/createMacCompliancePayload.ts",

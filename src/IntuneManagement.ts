@@ -21,6 +21,7 @@ import * as types from "./types";
 import {DeviceConfiguration} from "./DeviceConfiguration";
 import {DeviceCustomConfiguration} from "./DeviceCustomConfiguration";
 import {DeviceCustomConfigurationImporter} from "./DeviceCustomConfigurationImporter";
+import {DeviceCatalogResource} from "./devices/DeviceCatalogs";
 
 type AssignmentType = {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
@@ -34,10 +35,11 @@ export interface IntuneManagementArgs {
     /** The intuneId of the Intune instance can be found when updating the DefaultPlatformRestrictions*/
     intuneId?: pulumi.Input<string>;
     corporateDeviceIdentifiers?: CorporateDeviceIdentifierArgs[];
+    deviceCatalogs?: string[];
     macOs?: {
         compliancePolicy: MacCompliancePolicyType;
-        antiVirusPolicy: ConfigurationPolicyType;
-        diskEncryptionPolicy: MacDiskEncryptionPayloadArgs & AssignmentType;
+        antiVirusPolicy?: ConfigurationPolicyType;
+        diskEncryptionPolicy?: MacDiskEncryptionPayloadArgs & AssignmentType;
         firewallPolicy?: MacFirewallConfigurationArgs & AssignmentType;
         importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>;
         importCustomConfigsFolders?: Array<DirectoryMacConfigsImporterArgs & AssignmentType>;
@@ -51,6 +53,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         this.createMacPolicies();
         this.createPlatformRestrictions();
         this.createCorporateDeviceIdentifiers();
+        this.createDeviceCatalogs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
@@ -156,5 +159,16 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         if (!corporateDeviceIdentifiers || corporateDeviceIdentifiers.length <= 0) return undefined;
 
         return new CorporateDeviceIdentifiersResource(`${this.name}-corporate-device-identifiers`, {identifiers: corporateDeviceIdentifiers}, {parent: this});
+    }
+
+    private createDeviceCatalogs() {
+        const {deviceCatalogs} = this.args;
+        if (!deviceCatalogs || deviceCatalogs.length <= 0) return undefined;
+        return deviceCatalogs.map(catalog => new DeviceCatalogResource(`${this.name}-device-catalog-${catalog.replace(/\s+/g, '').toLowerCase()}`, {
+            catalogName: catalog,
+        }, {
+            parent: this,
+            retainOnDelete: true
+        }));
     }
 }
