@@ -2,10 +2,10 @@ import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
 import * as types from '../types';
-import {CustomConfiguration} from "./types";
+import {CustomConfiguration, CustomTrustedCertificate} from "./types";
 
 export interface CustomPolicyInputs {
-    config: CustomConfiguration
+    config: CustomConfiguration | CustomTrustedCertificate
 }
 
 export interface CustomPolicyOutputs extends CustomPolicyInputs {

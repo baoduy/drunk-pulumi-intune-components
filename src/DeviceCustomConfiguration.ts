@@ -9,7 +9,7 @@ import deviceHelpers, {CustomConfigArgs} from "./devices/helpers";
 import * as types from "./types";
 
 export interface DeviceCustomConfigurationArgs extends CustomConfigArgs {
-    assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId'>>
+    assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
 }
 
 export class DeviceCustomConfiguration extends BaseComponent<DeviceCustomConfigurationArgs> {

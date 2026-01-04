@@ -9,7 +9,7 @@ import {
 import * as types from "./types";
 
 export interface DeviceConfigurationArgs extends ConfigurationPolicyInputs {
-    assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId'>>
+    assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>;
 }
 
 export class DeviceConfiguration extends BaseComponent<DeviceConfigurationArgs> {

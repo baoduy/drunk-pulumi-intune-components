@@ -13,14 +13,18 @@ import {
 } from "./devices";
 import deviceHelpers, {
     CustomConfigArgs,
+    DirectoryMacConfigsImporterArgs,
     MacDiskEncryptionPayloadArgs,
     MacFirewallConfigurationArgs
 } from "./devices/helpers";
 import * as types from "./types";
 import {DeviceConfiguration} from "./DeviceConfiguration";
 import {DeviceCustomConfiguration} from "./DeviceCustomConfiguration";
+import {DeviceCustomConfigurationImporter} from "./DeviceCustomConfigurationImporter";
 
-type AssignmentType = { assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId'>> };
+type AssignmentType = {
+    assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
+};
 type MacCompliancePolicyType = types.AsInput<MacCompliancePolicyInputs> & {
     assignments: types.AsInput<Omit<CompliancePolicyAssignmentInputs, 'compliancePolicyId'>>
 };
@@ -35,7 +39,8 @@ export interface IntuneManagementArgs {
         antiVirusPolicy: ConfigurationPolicyType;
         diskEncryptionPolicy: MacDiskEncryptionPayloadArgs & AssignmentType;
         firewallPolicy?: MacFirewallConfigurationArgs & AssignmentType;
-        importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>
+        importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>;
+        importCustomConfigsFolders?: Array<DirectoryMacConfigsImporterArgs & AssignmentType>;
     },
 }
 
@@ -97,8 +102,14 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
-    private importMacCustomConfigs(config: Array<CustomConfigArgs & AssignmentType>) {
-        return config.map((cfg) => new DeviceCustomConfiguration(`${this.name}-mac-custom-${cfg.name.replace(/\s+/g, '').toLowerCase()}`,
+    private importMacCustomConfigs(configs: Array<CustomConfigArgs & AssignmentType>) {
+        return configs.map((cfg) => new DeviceCustomConfiguration(`${this.name}-mac-custom-${cfg.name.replace(/\s+/g, '').toLowerCase()}`,
+            cfg,
+            {parent: this}));
+    }
+
+    private importMacCustomConfigsFolders(configs: Array<DirectoryMacConfigsImporterArgs & AssignmentType>) {
+        return configs.map(cfg => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder`,
             cfg,
             {parent: this}));
     }
@@ -120,6 +131,9 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }
         if (macOs.importCustomConfigs) {
             this.importMacCustomConfigs(macOs.importCustomConfigs);
+        }
+        if (macOs.importCustomConfigsFolders) {
+            this.importMacCustomConfigsFolders(macOs.importCustomConfigsFolders);
         }
     }
 

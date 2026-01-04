@@ -25,6 +25,7 @@
   "files": [
     "src/DeviceConfiguration.ts",
     "src/DeviceCustomConfiguration.ts",
+    "src/DeviceCustomConfigurationImporter.ts",
     "src/IntuneManagement.ts",
     "src/base/BaseComponent.ts",
     "src/base/BaseProvider.ts",
