@@ -1,6 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
-import {BaseOptions, BaseProvider, BaseResource} from '../base';
+import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
+import * as types from '../types';
 
 export type RestrictionArgs = {
     platformBlocked: boolean;
@@ -125,7 +126,7 @@ export class DefaultPlatformRestrictionsResource extends BaseResource<
 
     constructor(
         name: string,
-        props: BaseOptions<DefaultPlatformRestrictionsInputs>,
+        props: types.AsInput<DefaultPlatformRestrictionsInputs>,
         opts?: pulumi.CustomResourceOptions,
     ) {
         super(

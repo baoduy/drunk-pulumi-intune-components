@@ -3,31 +3,31 @@ import * as pulumi from '@pulumi/pulumi';
 import {
     ConfigurationPolicyAssignmentInputs,
     ConfigurationPolicyAssignmentResource,
-    ConfigurationPolicyInputs,
-    ConfigurationPolicyResource
+    CustomPolicyResource,
 } from "./devices";
+import deviceHelpers, {CustomConfigArgs} from "./devices/helpers";
 import * as types from "./types";
 
-export interface DeviceConfigurationArgs extends ConfigurationPolicyInputs {
+export interface DeviceCustomConfigurationArgs extends CustomConfigArgs {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId'>>
 }
 
-export class DeviceConfiguration extends BaseComponent<DeviceConfigurationArgs> {
+export class DeviceCustomConfiguration extends BaseComponent<DeviceCustomConfigurationArgs> {
     public readonly id?: pulumi.Output<string>;
 
-    constructor(name: string, args: DeviceConfigurationArgs, opts?: pulumi.ComponentResourceOptions) {
-        super('DeviceConfiguration', name, args, opts);
+    constructor(name: string, args: DeviceCustomConfigurationArgs, opts?: pulumi.ComponentResourceOptions) {
+        super('DeviceCustomConfiguration', name, args, opts);
 
-        const {assignments, ...props} = args;
-        const policy = new ConfigurationPolicyResource(`${this.name}-policy`, {
-            ...props
+        const {assignments, ...config} = args;
+        const policy = new CustomPolicyResource(`${this.name}-config`, {
+            config: deviceHelpers.createMacCustomConfig(config),
         }, {...this.opts, parent: this});
 
         if (assignments) {
             new ConfigurationPolicyAssignmentResource(`${this.name}-assignment`, {
                 ...assignments,
                 configPolicyId: policy.id,
-                configType: 'configurationPolicies'
+                configType: 'deviceConfigurations'
             }, {
                 dependsOn: policy, deletedWith: policy, parent: this
             });

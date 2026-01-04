@@ -1,6 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
-import {BaseOptions, BaseProvider, BaseResource} from '../base';
+import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
+import * as types from '../types';
 
 export interface CompliancePolicyAssignmentInputs {
     compliancePolicyId: string;
@@ -69,7 +70,7 @@ class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAs
 export class CompliancePolicyAssignmentResource extends BaseResource<CompliancePolicyAssignmentInputs, CompliancePolicyAssignmentOutputs> {
     declare readonly name: string;
 
-    constructor(name: string, props: BaseOptions<CompliancePolicyAssignmentInputs>, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, props: types.AsInput<CompliancePolicyAssignmentInputs>, opts?: pulumi.CustomResourceOptions) {
         super(new CompliancePolicyAssignmentProvider(name), `drunk:intune:CompliancePolicyAssignment:${name}`, props, opts);
         this.name = name;
     }

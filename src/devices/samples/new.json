@@ -1,46 +1,38 @@
-//PATCH https://graph.microsoft.com/beta/deviceManagement/deviceEnrollmentConfigurations/d1d30cb8-3f6d-4261-a1b6-9d9de7dfde6c_DefaultPlatformRestrictions
 {
-    "@odata.type": "#microsoft.graph.deviceEnrollmentPlatformRestrictionsConfiguration",
-    "androidRestriction": {
-        "platformBlocked": true,
-        "personalDeviceEnrollmentBlocked": false,
-        "osMinimumVersion": "",
-        "osMaximumVersion": "",
-        "blockedManufacturers": []
-    },
-    "androidForWorkRestriction": {
-        "platformBlocked": true,
-        "personalDeviceEnrollmentBlocked": false,
-        "osMinimumVersion": "",
-        "osMaximumVersion": "",
-        "blockedManufacturers": []
-    },
-    "iosRestriction": {
-        "platformBlocked": true,
-        "personalDeviceEnrollmentBlocked": false,
-        "osMinimumVersion": "",
-        "osMaximumVersion": "",
-        "blockedManufacturers": []
-    },
-    "macOSRestriction": {
-        "platformBlocked": false,
-        "personalDeviceEnrollmentBlocked": true,
-        "osMinimumVersion": null,
-        "osMaximumVersion": null,
-        "blockedManufacturers": []
-    },
-    "windowsRestriction": {
-        "platformBlocked": false,
-        "personalDeviceEnrollmentBlocked": true,
-        "osMinimumVersion": "10.0",
-        "osMaximumVersion": "12.0",
-        "blockedManufacturers": []
-    },
-    "windowsHomeSkuRestriction": {
-        "platformBlocked": false,
-        "personalDeviceEnrollmentBlocked": true,
-        "osMinimumVersion": null,
-        "osMaximumVersion": null,
-        "blockedManufacturers": []
-    }
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/deviceConfigurations(assignments())/$entity",
+    "@odata.type": "#microsoft.graph.macOSCustomConfiguration",
+    "id": "1946f1a9-b5bc-47d1-9fa9-e934f77f2d7c",
+    "lastModifiedDateTime": "2024-05-27T00:23:06.2919573Z",
+    "roleScopeTagIds": [
+        "0"
+    ],
+    "supportsScopeTags": true,
+    "deviceManagementApplicabilityRuleOsEdition": null,
+    "deviceManagementApplicabilityRuleOsVersion": null,
+    "deviceManagementApplicabilityRuleDeviceMode": null,
+    "createdDateTime": "2024-05-27T00:23:06.2919573Z",
+    "description": null,
+    "displayName": "WIXO IT MAC - Cloudflare Config",
+    "version": 1,
+    "payloadName": "cloudflare condig",
+    "payloadFileName": "Cloudflare WARP Config.mobileconfig",
+    "payload": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHBsaXN0IFBVQkxJQyAiLS8vQXBwbGUvL0RURCBQTElTVCAxLjAvL0VOIiAiaHR0cDovL3d3dy5hcHBsZS5jb20vRFREcy9Qcm9wZXJ0eUxpc3QtMS4wLmR0ZCI+CjxwbGlzdCB2ZXJzaW9uPSIxLjAiPgo8ZGljdD4KCTxrZXk+UGF5bG9hZERpc3BsYXlOYW1lPC9rZXk+Cgk8c3RyaW5nPkNsb3VkZmxhcmUgV0FSUDwvc3RyaW5nPgoJPGtleT5QYXlsb2FkSWRlbnRpZmllcjwva2V5PgoJPHN0cmluZz5jbG91ZGZsYXJlX3dhcnA8L3N0cmluZz4KCTxrZXk+UGF5bG9hZE9yZ2FuaXphdGlvbjwva2V5PgoJPHN0cmluZz5DbG91ZGZsYXJlLCBMdGQuPC9zdHJpbmc+Cgk8a2V5PlBheWxvYWRSZW1vdmFsRGlzYWxsb3dlZDwva2V5PgoJPGZhbHNlLz4KCTxrZXk+UGF5bG9hZFR5cGU8L2tleT4KCTxzdHJpbmc+Q29uZmlndXJhdGlvbjwvc3RyaW5nPgoJPGtleT5QYXlsb2FkU2NvcGU8L2tleT4KCTxzdHJpbmc+U3lzdGVtPC9zdHJpbmc+Cgk8a2V5PlBheWxvYWRVVUlEPC9rZXk+Cgk8c3RyaW5nPkY2NDc5RTg1LTU2MjMtNEUxNi1CNUJCLTc1MUJDNjU3RDI3Rjwvc3RyaW5nPgoJPGtleT5QYXlsb2FkVmVyc2lvbjwva2V5PgoJPGludGVnZXI+MTwvaW50ZWdlcj4KICA8a2V5PlBheWxvYWRDb250ZW50PC9rZXk+Cgk8YXJyYXk+CgkJPGRpY3Q+CiAgICAJPGtleT5vcmdhbml6YXRpb248L2tleT4KICAgIAk8c3RyaW5nPndpeG88L3N0cmluZz4KICAgIAk8a2V5PmF1dG9fY29ubmVjdDwva2V5PgogICAgCTxpbnRlZ2VyPjEyMDA8L2ludGVnZXI+CiAgICAJPGtleT5vbmJvYXJkaW5nPC9rZXk+CiAgICAJPGZhbHNlLz4KCQkJPGtleT5QYXlsb2FkRGlzcGxheU5hbWU8L2tleT4KCQkJPHN0cmluZz5XYXJwIENvbmZpZ3VyYXRpb248L3N0cmluZz4KCQkJPGtleT5QYXlsb2FkSWRlbnRpZmllcjwva2V5PgoJCQk8c3RyaW5nPmNvbS5jbG91ZGZsYXJlLndhcnAuNUEzMUZBMjQtRkY4Qy00MUVBLTk4OUUtRjA3MDgyMEYyQTgwPC9zdHJpbmc+CgkJCTxrZXk+UGF5bG9hZE9yZ2FuaXphdGlvbjwva2V5PgoJCQk8c3RyaW5nPkNsb3VkZmxhcmUgTHRkLjwvc3RyaW5nPgoJCQk8a2V5PlBheWxvYWRUeXBlPC9rZXk+CgkJCTxzdHJpbmc+Y29tLmNsb3VkZmxhcmUud2FycDwvc3RyaW5nPgoJCQk8a2V5PlBheWxvYWRVVUlEPC9rZXk+CgkJCTxzdHJpbmc+NUEzMUZBMjQtRkY4Qy00MUVBLTk4OUUtRjA3MDgyMEYyQTgwPC9zdHJpbmc+CgkJCTxrZXk+UGF5bG9hZFZlcnNpb248L2tleT4KCQkJPGludGVnZXI+MTwvaW50ZWdlcj4KCQk8L2RpY3Q+Cgk8L2FycmF5Pgo8L2RpY3Q+CjwvcGxpc3Q+Cg==",
+    "deploymentChannel": "deviceChannel"
+},
+{
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/importedDeviceIdentities",
+    "@odata.count": 1,
+    "value": [
+        {
+            "id": "Ak03OURNVzAyOVY%3d",
+            "importedDeviceIdentifier": "M79DMW029V",
+            "importedDeviceIdentityType": "serialNumber",
+            "lastModifiedDateTime": "2026-01-04T02:05:59Z",
+            "createdDateTime": "2026-01-04T02:05:59Z",
+            "lastContactedDateTime": "0001-01-01T00:00:00Z",
+            "description": "",
+            "enrollmentState": "notContacted",
+            "platform": "unknown"
+        }
+    ]
 }

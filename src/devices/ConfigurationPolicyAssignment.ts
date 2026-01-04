@@ -1,9 +1,11 @@
 import * as pulumi from '@pulumi/pulumi';
-import {BaseOptions, BaseProvider, BaseResource} from '../base';
+import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
+import * as types from '../types';
 
 export interface ConfigurationPolicyAssignmentInputs {
     configPolicyId: string;
+    configType: 'deviceConfigurations' | 'configurationPolicies',
     includeGroupIds?: string[];
     excludeGroupIds?: string[];
     allUsers?: boolean;
@@ -60,12 +62,11 @@ class ConfigurationPolicyAssignmentProvider extends BaseProvider<ConfigurationPo
             }));
         }
 
-        await graphRequest(
-            `beta/deviceManagement/configurationPolicies('${inputs.configPolicyId}')/assign`,
+        await graphRequest(this.getPath(inputs),
             'POST',
             payload,
         ).catch((error) => {
-            console.error('configurationPolicies', error);
+            console.error(inputs.configType, error);
             throw error;
         });
         return {id: this.name, outs: inputs};
@@ -78,12 +79,18 @@ class ConfigurationPolicyAssignmentProvider extends BaseProvider<ConfigurationPo
     ): Promise<pulumi.dynamic.UpdateResult> {
         return this.create(news);
     }
+
+    private getPath(inputs: ConfigurationPolicyAssignmentInputs): string {
+        return inputs.configType === 'configurationPolicies'
+            ? `beta/deviceManagement/configurationPolicies('${inputs.configPolicyId}')/assign`
+            : `beta/deviceManagement/deviceConfigurations/${inputs.configPolicyId}/assign`
+    }
 }
 
 export class ConfigurationPolicyAssignmentResource extends BaseResource<ConfigurationPolicyAssignmentInputs, ConfigurationPolicyAssignmentOutputs> {
     declare readonly name: string;
 
-    constructor(name: string, props: BaseOptions<ConfigurationPolicyAssignmentInputs>, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, props: types.AsInput<ConfigurationPolicyAssignmentInputs>, opts?: pulumi.CustomResourceOptions) {
         super(new ConfigurationPolicyAssignmentProvider(name), `drunk:intune:ConfigurationPolicyAssignment:${name}`, props, opts);
         this.name = name;
     }

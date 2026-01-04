@@ -3,27 +3,39 @@ import * as pulumi from '@pulumi/pulumi';
 import {
     CompliancePolicyAssignmentInputs,
     CompliancePolicyAssignmentResource,
+    ConfigurationPolicyAssignmentInputs,
+    CorporateDeviceIdentifierArgs,
+    CorporateDeviceIdentifiersResource,
     DefaultPlatformRestrictionsResource,
     deviceTypes,
     MacCompliancePolicyInputs,
     MacCompliancePolicyResource
 } from "./devices";
-import deviceHelpers, {MacDiskEncryptionPayloadArgs, MacFirewallConfigurationArgs} from "./devices/helpers";
+import deviceHelpers, {
+    CustomConfigArgs,
+    MacDiskEncryptionPayloadArgs,
+    MacFirewallConfigurationArgs
+} from "./devices/helpers";
 import * as types from "./types";
 import {DeviceConfiguration} from "./DeviceConfiguration";
+import {DeviceCustomConfiguration} from "./DeviceCustomConfiguration";
 
-type AssignmentType = { assignments: types.AsInput<Omit<CompliancePolicyAssignmentInputs, 'compliancePolicyId'>> };
-type MacCompliancePolicyType = types.AsInput<MacCompliancePolicyInputs> & AssignmentType;
+type AssignmentType = { assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId'>> };
+type MacCompliancePolicyType = types.AsInput<MacCompliancePolicyInputs> & {
+    assignments: types.AsInput<Omit<CompliancePolicyAssignmentInputs, 'compliancePolicyId'>>
+};
 type ConfigurationPolicyType = deviceTypes.ConfigurationArgs & AssignmentType;
 
 export interface IntuneManagementArgs {
-    /** The Id of the Intune instance can be found when updating the DefaultPlatformRestrictions*/
-    intuneId: pulumi.Input<string>;
+    /** The intuneId of the Intune instance can be found when updating the DefaultPlatformRestrictions*/
+    intuneId?: pulumi.Input<string>;
+    corporateDeviceIdentifiers?: CorporateDeviceIdentifierArgs[];
     macOs?: {
         compliancePolicy: MacCompliancePolicyType;
         antiVirusPolicy: ConfigurationPolicyType;
         diskEncryptionPolicy: MacDiskEncryptionPayloadArgs & AssignmentType;
         firewallPolicy?: MacFirewallConfigurationArgs & AssignmentType;
+        importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>
     },
 }
 
@@ -32,8 +44,8 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         super('IntuneManagement', name, args, opts);
 
         this.createMacPolicies();
-        //This need to be an Intune Administrator.
-        //this.createPlatformRestrictions();
+        this.createPlatformRestrictions();
+        this.createCorporateDeviceIdentifiers();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
@@ -85,6 +97,12 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
+    private importMacCustomConfigs(config: Array<CustomConfigArgs & AssignmentType>) {
+        return config.map((cfg) => new DeviceCustomConfiguration(`${this.name}-mac-custom-${cfg.name.replace(/\s+/g, '').toLowerCase()}`,
+            cfg,
+            {parent: this}));
+    }
+
     private createMacPolicies() {
         const {macOs} = this.args;
         if (!macOs) return undefined;
@@ -100,10 +118,16 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         if (macOs.firewallPolicy) {
             this.createMacFirewallPolicy(macOs.firewallPolicy);
         }
+        if (macOs.importCustomConfigs) {
+            this.importMacCustomConfigs(macOs.importCustomConfigs);
+        }
     }
 
+    /**This need to be an Intune Administrator.*/
     private createPlatformRestrictions() {
         const {intuneId, macOs} = this.args;
+        if (!intuneId) return undefined;
+
         return new DefaultPlatformRestrictionsResource(`${this.name}-default-platform-restrictions`, {
             intuneId,
             macosRestriction: macOs ? {
@@ -111,5 +135,12 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
                 personalDeviceEnrollmentBlocked: true,
             } : undefined
         }, {parent: this});
+    }
+
+    private createCorporateDeviceIdentifiers() {
+        const {corporateDeviceIdentifiers} = this.args;
+        if (!corporateDeviceIdentifiers || corporateDeviceIdentifiers.length <= 0) return undefined;
+
+        return new CorporateDeviceIdentifiersResource(`${this.name}-corporate-device-identifiers`, {identifiers: corporateDeviceIdentifiers}, {parent: this});
     }
 }

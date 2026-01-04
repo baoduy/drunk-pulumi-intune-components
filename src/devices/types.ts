@@ -72,3 +72,15 @@ export type SimpleSettingValue = {
 export type TemplateReference = {
     readonly templateId?: string;
 }
+
+export type CustomConfiguration = {
+    readonly "@odata.type"?: "#microsoft.graph.macOSCustomConfiguration";
+    readonly id?: string;
+    readonly roleScopeTagIds?: string[];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly payloadName?: string;
+    readonly payloadFileName?: string;
+    readonly payload?: string;
+    readonly deploymentChannel?: 'deviceChannel';
+}

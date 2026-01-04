@@ -1,8 +1,9 @@
 import * as pulumi from '@pulumi/pulumi';
-import {BaseOptions, BaseProvider, BaseResource} from '../base';
+import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
 import deviceHelpers from './helpers';
 import {MacDeviceCompliance} from './types';
+import * as types from '../types';
 
 export interface MacCompliancePolicyInputs
     extends Omit<
@@ -73,7 +74,7 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
 export class MacCompliancePolicyResource extends BaseResource<MacCompliancePolicyInputs, MacCompliancePolicyOutputs> {
     declare readonly name: string;
 
-    constructor(name: string, props: BaseOptions<MacCompliancePolicyInputs>, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, props: types.AsInput<MacCompliancePolicyInputs>, opts?: pulumi.CustomResourceOptions) {
         super(new MacCompliancePolicyProvider(name), `drunk:intune:MacCompliancePolicy:${name}`, props, opts);
         this.name = name;
     }

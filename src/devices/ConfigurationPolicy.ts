@@ -1,7 +1,8 @@
 import * as pulumi from '@pulumi/pulumi';
-import {BaseOptions, BaseProvider, BaseResource} from '../base';
+import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
 import {DeviceConfigurationPolicy} from "./types";
+import * as types from '../types';
 
 export interface ConfigurationPolicyInputs
     extends Omit<DeviceConfigurationPolicy, 'id'> {
@@ -49,7 +50,7 @@ class ConfigurationPolicyProvider extends BaseProvider<ConfigurationPolicyInputs
 export class ConfigurationPolicyResource extends BaseResource<ConfigurationPolicyInputs, ConfigurationPolicyOutputs> {
     declare readonly name: string;
 
-    constructor(name: string, props: BaseOptions<ConfigurationPolicyInputs>, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, props: types.AsInput<ConfigurationPolicyInputs>, opts?: pulumi.CustomResourceOptions) {
         super(new ConfigurationPolicyProvider(name), `drunk:intune:ConfigurationPolicy:${name}`, props, opts);
         this.name = name;
     }
