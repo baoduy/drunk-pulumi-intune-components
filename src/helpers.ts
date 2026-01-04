@@ -33,8 +33,12 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
         );
     }
 
-    const text = await response.text();
-    return text ? JSON.parse(text) : text;
+    const text = (await response.text()).trim();
+    try {
+        return text ? JSON.parse(text) : text;
+    } catch {
+        return text;
+    }
 }
 //
 // export function createDeviceClient() {

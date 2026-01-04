@@ -109,7 +109,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
     }
 
     private importMacCustomConfigsFolders(configs: Array<DirectoryMacConfigsImporterArgs & AssignmentType>) {
-        return configs.map(cfg => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder`,
+        return configs.map((cfg, index) => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder-${index}`,
             cfg,
             {parent: this}));
     }

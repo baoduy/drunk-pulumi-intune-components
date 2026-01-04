@@ -2,11 +2,12 @@ import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
 import * as types from '../types';
+import {Platforms} from "./types";
 
 export type CorporateDeviceIdentifierArgs = {
     importedDeviceIdentityType: "serialNumber" | 'imei',
     importedDeviceIdentifier: string,
-    platform: 'unknown' | 'ios' | 'android' | 'windows' | 'windowsMobile' | 'macOS',
+    platform: Platforms,
     description?: string;
 };
 

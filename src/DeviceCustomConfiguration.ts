@@ -20,7 +20,7 @@ export class DeviceCustomConfiguration extends BaseComponent<DeviceCustomConfigu
 
         const {assignments, ...config} = args;
         const policy = new CustomPolicyResource(`${this.name}-config`, {
-            config: deviceHelpers.createMacCustomConfig(config),
+            config: deviceHelpers.createMacCustomConfig(config).config,
         }, {...this.opts, parent: this});
 
         if (assignments) {

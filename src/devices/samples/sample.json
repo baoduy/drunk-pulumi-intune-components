@@ -1,11 +1,255 @@
 {
-    "id": "00000000-0000-0000-0000-000000000000",
-    "displayName": "MAC - Cloudflare Warp Cert",
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#deviceManagement/configurationPolicies/$entity",
+    "createdDateTime": "2024-05-19T04:00:24.5164686Z",
+    "creationSource": null,
+    "description": "",
+    "lastModifiedDateTime": "2025-02-12T02:51:40.9912765Z",
+    "name": "WIXO IT MAC - SSO w Pass Settings",
+    "platforms": "macOS",
+    "priorityMetaData": null,
     "roleScopeTagIds": [
         "0"
     ],
-    "@odata.type": "#microsoft.graph.macOSTrustedRootCertificate",
-    "deploymentChannel": "deviceChannel",
-    "certFileName": "certificate.crt",
-    "trustedRootCertificate": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURIRENDQXNPZ0F3SUJBZ0lVVXEzNnlHclpNV0NDZkQ2K0pSMGVHeXpFdVBVd0NnWUlLb1pJemowRUF3SXcKZ2NBeEN6QUpCZ05WQkFZVEFsVlRNUk13RVFZRFZRUUlFd3BEWVd4cFptOXlibWxoTVJZd0ZBWURWUVFIRXcxVApZVzRnUm5KaGJtTnBjMk52TVJrd0Z3WURWUVFLRXhCRGJHOTFaR1pzWVhKbExDQkpibU11TVJzd0dRWURWUVFMCkV4SjNkM2N1WTJ4dmRXUm1iR0Z5WlM1amIyMHhUREJLQmdOVkJBTVRRMGRoZEdWM1lYa2dRMEVnTFNCRGJHOTEKWkdac1lYSmxJRTFoYm1GblpXUWdSeklnTlRaaU5EaGtOR1E0TTJZMk5XSmpNRGs0TVdFM04yWXpZbU01WlRrMgpNV0V3SGhjTk1qWXdNVEF4TURFME5qQXdXaGNOTXpBeE1qTXhNREUwTmpBd1dqQ0J3REVMTUFrR0ExVUVCaE1DClZWTXhFekFSQmdOVkJBZ1RDa05oYkdsbWIzSnVhV0V4RmpBVUJnTlZCQWNURFZOaGJpQkdjbUZ1WTJselkyOHgKR1RBWEJnTlZCQW9URUVOc2IzVmtabXhoY21Vc0lFbHVZeTR4R3pBWkJnTlZCQXNURW5kM2R5NWpiRzkxWkdacwpZWEpsTG1OdmJURk1NRW9HQTFVRUF4TkRSMkYwWlhkaGVTQkRRU0F0SUVOc2IzVmtabXhoY21VZ1RXRnVZV2RsClpDQkhNaUExTm1JME9HUTBaRGd6WmpZMVltTXdPVGd4WVRjM1pqTmlZemxsT1RZeFlUQlpNQk1HQnlxR1NNNDkKQWdFR0NDcUdTTTQ5QXdFSEEwSUFCQTZDL0V4blh4TzYxcXpaYVFIVjNKemNHTkZMSDFmWm9yOVZvSWZvZkJCZgpTb1JHdGpBaWdua1Zoa3NzSmtEOXV5R1FDODVzckJDaUk4SmdIZk9OK3JHamdaZ3dnWlV3RGdZRFZSMFBBUUgvCkJBUURBZ0VHTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRk9kQitxaVBPVW5FS1hBU0FWQmYKUXVOemhvWUhNRk1HQTFVZEh3Uk1NRW93U0tCR29FU0dRbWgwZEhBNkx5OWpjbXd1WTJ4dmRXUm1iR0Z5WlM1agpiMjB2TWpZMU9UYzVNRGt0WkRjMk1pMDBOamRsTFRrMVpqZ3RNVGcwTmpGa1lXVm1ZVEk1TG1OeWJEQUtCZ2dxCmhrak9QUVFEQWdOSEFEQkVBaUJicTl6Tk1rQ214bnRmbmdGaFhmU281bUMzQzM5TWRKWmM3ZnVQR3NHRE1BSWcKWkJUb3BGSXJzbEFFUktaMlZqeTVzei9QNDJReHc4cWFJNFBLeUdURVB3dz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+    "settingCount": 2,
+    "technologies": "mdm,appleRemoteManagement",
+    "id": "05cf84a3-e7b6-477e-9f2f-838b595546a8",
+    "templateReference": {
+        "templateId": "",
+        "templateFamily": "none",
+        "templateDisplayName": null,
+        "templateDisplayVersion": null
+    },
+    "settings": [
+        {
+            "id": "0",
+            "settingInstance": {
+                "@odata.type": "#microsoft.graph.deviceManagementConfigurationGroupSettingCollectionInstance",
+                "settingDefinitionId": "com.apple.extensiblesso_com.apple.extensiblesso",
+                "settingInstanceTemplateReference": null,
+                "auditRuleInformation": null,
+                "groupSettingCollectionValue": [
+                    {
+                        "settingValueTemplateReference": null,
+                        "children": [
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_authenticationmethod",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "choiceSettingValue": {
+                                    "settingValueTemplateReference": null,
+                                    "value": "com.apple.extensiblesso_authenticationmethod_0",
+                                    "children": []
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationSimpleSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_extensionidentifier",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "simpleSettingValue": {
+                                    "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                    "settingValueTemplateReference": null,
+                                    "value": "com.microsoft.CompanyPortalMac.ssoextension"
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationGroupSettingCollectionInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_platformsso",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "groupSettingCollectionValue": [
+                                    {
+                                        "settingValueTemplateReference": null,
+                                        "children": [
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationSimpleSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_accountdisplayname",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "simpleSettingValue": {
+                                                    "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "WIXO EntraID Account"
+                                                }
+                                            },
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_authenticationmethod",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "choiceSettingValue": {
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "com.apple.extensiblesso_platformsso_authenticationmethod_0",
+                                                    "children": []
+                                                }
+                                            },
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_enablecreateuseratlogin",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "choiceSettingValue": {
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "com.apple.extensiblesso_platformsso_enablecreateuseratlogin_true",
+                                                    "children": []
+                                                }
+                                            },
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_newuserauthorizationmode",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "choiceSettingValue": {
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "com.apple.extensiblesso_platformsso_newuserauthorizationmode_0",
+                                                    "children": []
+                                                }
+                                            },
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_useshareddevicekeys",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "choiceSettingValue": {
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "com.apple.extensiblesso_platformsso_useshareddevicekeys_false",
+                                                    "children": []
+                                                }
+                                            },
+                                            {
+                                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                                "settingDefinitionId": "com.apple.extensiblesso_platformsso_userauthorizationmode",
+                                                "settingInstanceTemplateReference": null,
+                                                "auditRuleInformation": null,
+                                                "choiceSettingValue": {
+                                                    "settingValueTemplateReference": null,
+                                                    "value": "com.apple.extensiblesso_platformsso_userauthorizationmode_0",
+                                                    "children": []
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationSimpleSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_registrationtoken",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "simpleSettingValue": {
+                                    "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                    "settingValueTemplateReference": null,
+                                    "value": "{{DEVICEREGISTRATION}}"
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_screenlockedbehavior",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "choiceSettingValue": {
+                                    "settingValueTemplateReference": null,
+                                    "value": "com.apple.extensiblesso_screenlockedbehavior_0",
+                                    "children": []
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationSimpleSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_teamidentifier",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "simpleSettingValue": {
+                                    "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                    "settingValueTemplateReference": null,
+                                    "value": "UBF8T346G9"
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_type",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "choiceSettingValue": {
+                                    "settingValueTemplateReference": null,
+                                    "value": "com.apple.extensiblesso_type_1",
+                                    "children": []
+                                }
+                            },
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationSimpleSettingCollectionInstance",
+                                "settingDefinitionId": "com.apple.extensiblesso_urls",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "simpleSettingCollectionValue": [
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login.microsoftonline.com"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login.microsoft.com"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://sts.windows.net"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login.partner.microsoftonline.cn"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login.chinacloudapi.cn"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login.microsoftonline.us"
+                                    },
+                                    {
+                                        "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
+                                        "settingValueTemplateReference": null,
+                                        "value": "https://login-us.microsoftonline.com"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "1",
+            "settingInstance": {
+                "@odata.type": "#microsoft.graph.deviceManagementConfigurationGroupSettingCollectionInstance",
+                "settingDefinitionId": "com.apple.preference.security_com.apple.preference.security",
+                "settingInstanceTemplateReference": null,
+                "auditRuleInformation": null,
+                "groupSettingCollectionValue": [
+                    {
+                        "settingValueTemplateReference": null,
+                        "children": [
+                            {
+                                "@odata.type": "#microsoft.graph.deviceManagementConfigurationChoiceSettingInstance",
+                                "settingDefinitionId": "com.apple.preference.security_dontallowpasswordresetui",
+                                "settingInstanceTemplateReference": null,
+                                "auditRuleInformation": null,
+                                "choiceSettingValue": {
+                                    "settingValueTemplateReference": null,
+                                    "value": "com.apple.preference.security_dontallowpasswordresetui_true",
+                                    "children": []
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
 }
