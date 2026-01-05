@@ -12,7 +12,6 @@
     "deviceManagementApplicabilityRuleDeviceMode": null,
     "createdDateTime": "2024-05-27T00:23:06.2919573Z",
     "description": null,
-    "displayName": "WIXO IT MAC - Cloudflare Config",
     "version": 1,
     "payloadName": "cloudflare condig",
     "payloadFileName": "Cloudflare WARP Config.mobileconfig",

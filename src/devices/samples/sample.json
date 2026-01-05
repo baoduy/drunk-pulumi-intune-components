@@ -4,7 +4,6 @@
     "creationSource": null,
     "description": "",
     "lastModifiedDateTime": "2025-02-12T02:51:40.9912765Z",
-    "name": "WIXO IT MAC - SSO w Pass Settings",
     "platforms": "macOS",
     "priorityMetaData": null,
     "roleScopeTagIds": [
@@ -70,7 +69,7 @@
                                                 "simpleSettingValue": {
                                                     "@odata.type": "#microsoft.graph.deviceManagementConfigurationStringSettingValue",
                                                     "settingValueTemplateReference": null,
-                                                    "value": "WIXO EntraID Account"
+                                                    "value": "MONXA EntraID Account"
                                                 }
                                             },
                                             {
