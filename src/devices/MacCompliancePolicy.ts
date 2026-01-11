@@ -1,7 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
-import deviceHelpers from './helpers';
+import {deviceHelpers} from './index';
 import {MacDeviceCompliance} from './types';
 import * as types from '../types';
 

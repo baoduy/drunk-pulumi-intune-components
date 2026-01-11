@@ -4,11 +4,11 @@ import {
     ConfigurationPolicyAssignmentInputs,
     ConfigurationPolicyAssignmentResource,
     CustomPolicyResource,
+    deviceHelpers
 } from "./devices";
-import deviceHelpers, {CustomConfigArgs} from "./devices/helpers";
 import * as types from "./types";
 
-export interface DeviceCustomConfigurationArgs extends CustomConfigArgs {
+export interface DeviceCustomConfigurationArgs extends deviceHelpers.CustomConfigArgs {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
 }
 

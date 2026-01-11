@@ -1,4 +1,5 @@
 export * as deviceTypes from './types';
+export * as deviceHelpers from './helpers';
 export * from './CompliancePolicyAssignment';
 export * from './ConfigurationPolicy';
 export * from './ConfigurationPolicyAssignment';

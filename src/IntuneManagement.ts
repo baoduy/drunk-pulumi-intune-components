@@ -7,16 +7,12 @@ import {
     CorporateDeviceIdentifierArgs,
     CorporateDeviceIdentifiersResource,
     DefaultPlatformRestrictionsResource,
+    deviceHelpers,
     deviceTypes,
     MacCompliancePolicyInputs,
     MacCompliancePolicyResource
 } from "./devices";
-import deviceHelpers, {
-    CustomConfigArgs,
-    DirectoryMacConfigsImporterArgs,
-    MacDiskEncryptionPayloadArgs,
-    MacFirewallConfigurationArgs
-} from "./devices/helpers";
+
 import * as types from "./types";
 import {DeviceConfiguration} from "./DeviceConfiguration";
 import {DeviceCustomConfiguration} from "./DeviceCustomConfiguration";
@@ -39,10 +35,10 @@ export interface IntuneManagementArgs {
     macOs?: {
         compliancePolicy: MacCompliancePolicyType;
         antiVirusPolicy?: ConfigurationPolicyType;
-        diskEncryptionPolicy?: MacDiskEncryptionPayloadArgs & AssignmentType;
-        firewallPolicy?: MacFirewallConfigurationArgs & AssignmentType;
-        importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>;
-        importCustomConfigsFolders?: Array<DirectoryMacConfigsImporterArgs & AssignmentType>;
+        diskEncryptionPolicy?: deviceHelpers.MacDiskEncryptionPayloadArgs & AssignmentType;
+        firewallPolicy?: deviceHelpers.MacFirewallConfigurationArgs & AssignmentType;
+        importCustomConfigs?: Array<deviceHelpers.CustomConfigArgs & AssignmentType>;
+        importCustomConfigsFolders?: Array<deviceHelpers.DirectoryMacConfigsImporterArgs & AssignmentType>;
     },
 }
 
@@ -89,7 +85,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
 
     }
 
-    private createMacDiskEncryptionPolicy(args: MacDiskEncryptionPayloadArgs & AssignmentType) {
+    private createMacDiskEncryptionPolicy(args: deviceHelpers.MacDiskEncryptionPayloadArgs & AssignmentType) {
         const {assignments, ...props} = args;
         return new DeviceConfiguration(`${this.name}-mac-disk-encryption`, {
             ...deviceHelpers.createMacDiskEncryptionPayload(props),
@@ -97,7 +93,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
-    private createMacFirewallPolicy(args: MacFirewallConfigurationArgs & AssignmentType) {
+    private createMacFirewallPolicy(args: deviceHelpers.MacFirewallConfigurationArgs & AssignmentType) {
         const {assignments, ...props} = args;
         return new DeviceConfiguration(`${this.name}-mac-firewall-policy`, {
             ...deviceHelpers.createMacFirewallPayload(props),
@@ -105,13 +101,13 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
-    private importMacCustomConfigs(configs: Array<CustomConfigArgs & AssignmentType>) {
+    private importMacCustomConfigs(configs: Array<deviceHelpers.CustomConfigArgs & AssignmentType>) {
         return configs.map((cfg) => new DeviceCustomConfiguration(`${this.name}-mac-custom-${cfg.name.replace(/\s+/g, '').toLowerCase()}`,
             cfg,
             {parent: this}));
     }
 
-    private importMacCustomConfigsFolders(configs: Array<DirectoryMacConfigsImporterArgs & AssignmentType>) {
+    private importMacCustomConfigsFolders(configs: Array<deviceHelpers.DirectoryMacConfigsImporterArgs & AssignmentType>) {
         return configs.map((cfg, index) => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder-${index}`,
             cfg,
             {parent: this}));

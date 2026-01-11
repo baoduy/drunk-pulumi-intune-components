@@ -4,14 +4,13 @@ import {
     ConfigurationPolicyAssignmentInputs,
     ConfigurationPolicyAssignmentResource,
     CustomPolicyResource,
+    deviceHelpers
 } from './devices';
-import deviceHelpers, {DirectoryMacConfigsImporterArgs} from './devices/helpers';
 import * as types from './types';
-import {DirectoryMacConfigsImporterOutputs} from "./devices/helpers/createMacCustomConfig";
 import {DeviceConfiguration} from "./DeviceConfiguration";
 import {CustomConfiguration, CustomTrustedCertificate} from "./devices/types";
 
-export interface DeviceCustomConfigurationImporterArgs extends DirectoryMacConfigsImporterArgs {
+export interface DeviceCustomConfigurationImporterArgs extends deviceHelpers.DirectoryMacConfigsImporterArgs {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>;
 }
 
@@ -36,7 +35,7 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
         return {results: this.results};
     }
 
-    private createDynamicConfig(args: DirectoryMacConfigsImporterOutputs) {
+    private createDynamicConfig(args: deviceHelpers.DirectoryMacConfigsImporterOutputs) {
         const {assignments} = this.args;
 
         if (args.type === 'DeviceConfiguration')
