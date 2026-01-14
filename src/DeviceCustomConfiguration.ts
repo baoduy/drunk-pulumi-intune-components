@@ -4,11 +4,11 @@ import {
     ConfigurationPolicyAssignmentInputs,
     ConfigurationPolicyAssignmentResource,
     CustomPolicyResource,
+    deviceHelpers
 } from "./devices";
-import deviceHelpers, {CustomConfigArgs} from "./devices/helpers";
 import * as types from "./types";
 
-export interface DeviceCustomConfigurationArgs extends CustomConfigArgs {
+export interface DeviceCustomConfigurationArgs extends deviceHelpers.CustomConfigArgs {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
 }
 
@@ -20,7 +20,7 @@ export class DeviceCustomConfiguration extends BaseComponent<DeviceCustomConfigu
 
         const {assignments, ...config} = args;
         const policy = new CustomPolicyResource(`${this.name}-config`, {
-            config: deviceHelpers.createMacCustomConfig(config),
+            config: deviceHelpers.createMacCustomConfig(config).config,
         }, {...this.opts, parent: this});
 
         if (assignments) {

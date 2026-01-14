@@ -1,8 +1,4 @@
 import {ClientSecretCredential} from '@azure/identity';
-// import {AzureIdentityAuthenticationProvider} from "@microsoft/kiota-authentication-azure";
-// import {FetchRequestAdapter} from "@microsoft/kiota-http-fetchlibrary";
-// import {createGraphBetaServiceClient} from "@microsoft/msgraph-beta-sdk";
-// import "@microsoft/msgraph-beta-sdk-devicemanagement";
 
 const getAzToken = async () => {
     const tenantId = process.env.INTUNE_AZURE_TENANT_ID!;
@@ -33,8 +29,12 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
         );
     }
 
-    const text = await response.text();
-    return text ? JSON.parse(text) : text;
+    const text = (await response.text()).trim();
+    try {
+        return text ? JSON.parse(text) : text;
+    } catch {
+        return text;
+    }
 }
 //
 // export function createDeviceClient() {

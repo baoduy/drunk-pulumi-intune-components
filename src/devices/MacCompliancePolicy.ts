@@ -1,7 +1,7 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
 import {graphRequest} from '../helpers';
-import deviceHelpers from './helpers';
+import {deviceHelpers} from './index';
 import {MacDeviceCompliance} from './types';
 import * as types from '../types';
 
@@ -67,7 +67,8 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
     }
 
     public async delete(id: string, props: MacCompliancePolicyInputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE');
+        await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE')
+            .catch(error => console.error('deviceCompliancePolicies', error));
     }
 }
 

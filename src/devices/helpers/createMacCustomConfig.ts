@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import {ConfigurationArgs, CustomConfiguration, CustomTrustedCertificate} from '../types';
+import {ConfigurationArgs, Platforms} from '../types';
 
 export const loadBase64FileContent = (filePath: string) => {
     // Extract filename from the path
@@ -9,7 +9,7 @@ export const loadBase64FileContent = (filePath: string) => {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const payload = Buffer.from(fileContent).toString('base64');
 
-    return {fileName, fileBase64: payload};
+    return {fileName, fileBase64: payload, fileContent};
 };
 
 export type CustomConfigArgs = ConfigurationArgs & {
@@ -17,7 +17,7 @@ export type CustomConfigArgs = ConfigurationArgs & {
     deploymentChannel: 'deviceChannel';
 };
 
-const whitelistedExtensions = ['.mobileconfig', '.crt', '.xml'];
+const whitelistedExtensions = ['.mobileconfig', '.crt', '.xml', '.json'];
 
 export type DirectoryMacConfigsImporterArgs = {
     configDir: string;
@@ -26,13 +26,20 @@ export type DirectoryMacConfigsImporterArgs = {
     description?: string;
 };
 
+export type DirectoryMacConfigsImporterOutputs = {
+    type: "DeviceConfiguration" | "DeviceCustomConfiguration",
+    platform: Platforms,
+    name: string,
+    config: any
+};
+
 export const createMacConfigs = ({
                                      configDir,
                                      deploymentChannel,
                                      namePrefix,
                                      description,
-                                 }: DirectoryMacConfigsImporterArgs): (CustomConfiguration | CustomTrustedCertificate)[] => {
-    const configs: (CustomConfiguration | CustomTrustedCertificate)[] = [];
+                                 }: DirectoryMacConfigsImporterArgs): Array<DirectoryMacConfigsImporterOutputs> => {
+    const configs = new Array<DirectoryMacConfigsImporterOutputs>();
 
     // Read all files from the config directory
     const files = fs.readdirSync(configDir);
@@ -60,17 +67,34 @@ export const createMacConfigs = ({
     return configs;
 };
 
+const redundantProperties = ['id', '"@odata.context', 'lastModifiedDateTime', 'creationSource', 'createdDateTime', 'priorityMetaData'];
+
 export const createMacCustomConfig = ({
                                           name,
                                           description,
                                           deploymentChannel,
                                           payloadFile,
-                                      }: CustomConfigArgs): CustomConfiguration | CustomTrustedCertificate => {
-    const {fileName, fileBase64} = loadBase64FileContent(payloadFile);
+                                      }: CustomConfigArgs): DirectoryMacConfigsImporterOutputs => {
+    const {fileName, fileBase64, fileContent} = loadBase64FileContent(payloadFile);
     const fileNameWithoutExt = path.basename(fileName, path.extname(fileName));
 
-    if (fileName.endsWith('.crt'))
-        return {
+    try {
+        if (fileName.endsWith('.json')) {
+            const config = {
+                ...JSON.parse(fileContent), description: description ?? name,
+                displayName: name,
+                name,
+            };
+            //Delete redundant properties
+            redundantProperties.forEach((prop) => delete config[prop]);
+            return {name, platform: 'macOS', type: 'DeviceConfiguration', config};
+        }
+    } catch (error) {
+        throw new Error(`Unable to convert content to JSON: ${fileName} with error: ${error}`, {cause: fileContent});
+    }
+
+    if (fileName.endsWith('.crt')) {
+        const config = {
             '@odata.type': '#microsoft.graph.macOSTrustedRootCertificate',
             id: '00000000-0000-0000-0000-000000000000',
             description: description ?? name,
@@ -80,8 +104,10 @@ export const createMacCustomConfig = ({
             certFileName: fileName,
             trustedRootCertificate: fileBase64,
         };
+        return {name, platform: 'macOS', type: 'DeviceCustomConfiguration', config};
+    }
 
-    return {
+    const config = {
         '@odata.type': '#microsoft.graph.macOSCustomConfiguration',
         id: '00000000-0000-0000-0000-000000000000',
         roleScopeTagIds: ['0'],
@@ -92,4 +118,5 @@ export const createMacCustomConfig = ({
         payloadFileName: fileName,
         payload: fileBase64,
     };
+    return {name, platform: 'macOS', type: 'DeviceCustomConfiguration', config};
 };

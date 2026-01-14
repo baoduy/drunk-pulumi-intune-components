@@ -43,7 +43,8 @@ class ConfigurationPolicyProvider extends BaseProvider<ConfigurationPolicyInputs
     }
 
     public async delete(id: string, props: ConfigurationPolicyInputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/configurationPolicies('${id}')`, 'DELETE');
+        await graphRequest(`beta/deviceManagement/configurationPolicies('${id}')`, 'DELETE')
+            .catch(error => console.error('configurationPolicies', error));
     }
 }
 

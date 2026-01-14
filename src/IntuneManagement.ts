@@ -7,20 +7,17 @@ import {
     CorporateDeviceIdentifierArgs,
     CorporateDeviceIdentifiersResource,
     DefaultPlatformRestrictionsResource,
+    deviceHelpers,
     deviceTypes,
     MacCompliancePolicyInputs,
     MacCompliancePolicyResource
 } from "./devices";
-import deviceHelpers, {
-    CustomConfigArgs,
-    DirectoryMacConfigsImporterArgs,
-    MacDiskEncryptionPayloadArgs,
-    MacFirewallConfigurationArgs
-} from "./devices/helpers";
+
 import * as types from "./types";
 import {DeviceConfiguration} from "./DeviceConfiguration";
 import {DeviceCustomConfiguration} from "./DeviceCustomConfiguration";
 import {DeviceCustomConfigurationImporter} from "./DeviceCustomConfigurationImporter";
+import {DeviceCatalogResource} from "./devices/DeviceCatalogs";
 
 type AssignmentType = {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>
@@ -34,13 +31,14 @@ export interface IntuneManagementArgs {
     /** The intuneId of the Intune instance can be found when updating the DefaultPlatformRestrictions*/
     intuneId?: pulumi.Input<string>;
     corporateDeviceIdentifiers?: CorporateDeviceIdentifierArgs[];
+    deviceCatalogs?: string[];
     macOs?: {
         compliancePolicy: MacCompliancePolicyType;
-        antiVirusPolicy: ConfigurationPolicyType;
-        diskEncryptionPolicy: MacDiskEncryptionPayloadArgs & AssignmentType;
-        firewallPolicy?: MacFirewallConfigurationArgs & AssignmentType;
-        importCustomConfigs?: Array<CustomConfigArgs & AssignmentType>;
-        importCustomConfigsFolders?: Array<DirectoryMacConfigsImporterArgs & AssignmentType>;
+        antiVirusPolicy?: ConfigurationPolicyType;
+        diskEncryptionPolicy?: deviceHelpers.MacDiskEncryptionPayloadArgs & AssignmentType;
+        firewallPolicy?: deviceHelpers.MacFirewallConfigurationArgs & AssignmentType;
+        importCustomConfigs?: Array<deviceHelpers.CustomConfigArgs & AssignmentType>;
+        importCustomConfigsFolders?: Array<deviceHelpers.DirectoryMacConfigsImporterArgs & AssignmentType>;
     },
 }
 
@@ -51,6 +49,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         this.createMacPolicies();
         this.createPlatformRestrictions();
         this.createCorporateDeviceIdentifiers();
+        this.createDeviceCatalogs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
@@ -86,7 +85,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
 
     }
 
-    private createMacDiskEncryptionPolicy(args: MacDiskEncryptionPayloadArgs & AssignmentType) {
+    private createMacDiskEncryptionPolicy(args: deviceHelpers.MacDiskEncryptionPayloadArgs & AssignmentType) {
         const {assignments, ...props} = args;
         return new DeviceConfiguration(`${this.name}-mac-disk-encryption`, {
             ...deviceHelpers.createMacDiskEncryptionPayload(props),
@@ -94,7 +93,7 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
-    private createMacFirewallPolicy(args: MacFirewallConfigurationArgs & AssignmentType) {
+    private createMacFirewallPolicy(args: deviceHelpers.MacFirewallConfigurationArgs & AssignmentType) {
         const {assignments, ...props} = args;
         return new DeviceConfiguration(`${this.name}-mac-firewall-policy`, {
             ...deviceHelpers.createMacFirewallPayload(props),
@@ -102,14 +101,14 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         }, {parent: this});
     }
 
-    private importMacCustomConfigs(configs: Array<CustomConfigArgs & AssignmentType>) {
+    private importMacCustomConfigs(configs: Array<deviceHelpers.CustomConfigArgs & AssignmentType>) {
         return configs.map((cfg) => new DeviceCustomConfiguration(`${this.name}-mac-custom-${cfg.name.replace(/\s+/g, '').toLowerCase()}`,
             cfg,
             {parent: this}));
     }
 
-    private importMacCustomConfigsFolders(configs: Array<DirectoryMacConfigsImporterArgs & AssignmentType>) {
-        return configs.map(cfg => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder`,
+    private importMacCustomConfigsFolders(configs: Array<deviceHelpers.DirectoryMacConfigsImporterArgs & AssignmentType>) {
+        return configs.map((cfg, index) => new DeviceCustomConfigurationImporter(`${this.name}-mac-custom-folder-${index}`,
             cfg,
             {parent: this}));
     }
@@ -156,5 +155,16 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         if (!corporateDeviceIdentifiers || corporateDeviceIdentifiers.length <= 0) return undefined;
 
         return new CorporateDeviceIdentifiersResource(`${this.name}-corporate-device-identifiers`, {identifiers: corporateDeviceIdentifiers}, {parent: this});
+    }
+
+    private createDeviceCatalogs() {
+        const {deviceCatalogs} = this.args;
+        if (!deviceCatalogs || deviceCatalogs.length <= 0) return undefined;
+        return deviceCatalogs.map(catalog => new DeviceCatalogResource(`${this.name}-device-catalog-${catalog.replace(/\s+/g, '').toLowerCase()}`, {
+            catalogName: catalog,
+        }, {
+            parent: this,
+            retainOnDelete: true
+        }));
     }
 }

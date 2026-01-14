@@ -1,95 +1,95 @@
-import { MacOSCompliancePolicy } from '@microsoft/microsoft-graph-types-beta';
+import {MacOSCompliancePolicy} from '@microsoft/microsoft-graph-types-beta';
+
+export type Platforms = 'unknown' | 'ios' | 'android' | 'windows' | 'windowsMobile' | 'macOS';
 
 export type ConfigurationArgs = {
-  name: string;
-  description?: string;
+    name: string;
+    description?: string;
 };
 
 export type MacDeviceCompliance = MacOSCompliancePolicy & {
-  readonly '@odata.type': '#microsoft.graph.macOSCompliancePolicy';
+    readonly '@odata.type': '#microsoft.graph.macOSCompliancePolicy';
 };
 
 export type DeviceConfigurationPolicy = {
-  readonly name?: string;
-  readonly description?: string;
-  readonly settings?: Setting[];
-  readonly roleScopeTagIds?: string[];
-  readonly platforms?: string;
-  readonly technologies?: string;
-  readonly templateReference?: TemplateReference;
+    readonly name?: string;
+    readonly description?: string;
+    readonly settings?: Setting[];
+    readonly roleScopeTagIds?: string[];
+    readonly platforms?: string;
+    readonly technologies?: string;
+    readonly templateReference?: TemplateReference;
 };
 
 export type Setting = {
-  readonly id?: string;
-  readonly settingInstance?: SettingInstance;
-  readonly '@odata.type'?: string;
+    readonly id?: string;
+    readonly settingInstance?: SettingInstance;
+    readonly '@odata.type'?: string;
 };
 
 export type SettingInstance = {
-  readonly '@odata.type'?: string;
-  readonly settingDefinitionId?: string;
-  readonly auditRuleInformation?: null;
-  readonly settingInstanceTemplateReference?: SettingInstanceTemplateReference;
-  readonly choiceSettingValue?: ChoiceSettingValue;
-  readonly groupSettingCollectionValue?: GroupSettingCollectionValue[];
-  readonly simpleSettingValue?: SimpleSettingValue;
+    readonly '@odata.type'?: string;
+    readonly settingDefinitionId?: string;
+    readonly auditRuleInformation?: null;
+    readonly settingInstanceTemplateReference?: SettingInstanceTemplateReference;
+    readonly choiceSettingValue?: ChoiceSettingValue;
+    readonly groupSettingCollectionValue?: GroupSettingCollectionValue[];
+    readonly simpleSettingValue?: SimpleSettingValue;
 };
 
 export type ChoiceSettingValue = {
-  readonly value?: string;
-  readonly settingValueTemplateReference?: SettingValueTemplateReference;
-  readonly children?: any[];
-  readonly '@odata.type'?: string;
+    readonly value?: string;
+    readonly settingValueTemplateReference?: SettingValueTemplateReference;
+    readonly children?: any[];
+    readonly '@odata.type'?: string;
 };
 
 export type SettingValueTemplateReference = {
-  readonly settingValueTemplateId?: string;
-  readonly useTemplateDefault?: boolean;
+    readonly settingValueTemplateId?: string;
+    readonly useTemplateDefault?: boolean;
 };
 
 export type GroupSettingCollectionValue = {
-  readonly children?: Child[];
+    readonly children?: Child[];
 };
 
 export type Child = {
-  readonly '@odata.type'?: string;
-  readonly settingDefinitionId?: string;
-  readonly choiceSettingValue?: ChoiceSettingValue;
-  readonly groupSettingCollectionValue?: GroupSettingCollectionValue[];
-  readonly settingInstanceTemplateReference?: SettingInstanceTemplateReference;
-  readonly simpleSettingValue?: SimpleSettingValue;
+    readonly '@odata.type'?: string;
+    readonly settingDefinitionId?: string;
+    readonly choiceSettingValue?: ChoiceSettingValue;
+    readonly groupSettingCollectionValue?: GroupSettingCollectionValue[];
+    readonly settingInstanceTemplateReference?: SettingInstanceTemplateReference;
+    readonly simpleSettingValue?: SimpleSettingValue;
 };
 
 export type SettingInstanceTemplateReference = {
-  readonly settingInstanceTemplateId?: string;
+    readonly settingInstanceTemplateId?: string;
 };
 
 export type SimpleSettingValue = {
-  readonly '@odata.type'?: string;
-  readonly value?: number | string;
-  readonly settingValueTemplateReference?: SettingValueTemplateReference;
+    readonly '@odata.type'?: string;
+    readonly value?: number | string;
+    readonly settingValueTemplateReference?: SettingValueTemplateReference;
 };
-export type TemplateReference = {
-  readonly templateId?: string;
-};
+export type TemplateReference = any;
 
 type CustomConfigurationBase = {
-  readonly id?: string;
-  readonly roleScopeTagIds?: ['0'];
-  readonly description?: string;
-  readonly displayName?: string;
-  readonly deploymentChannel?: 'deviceChannel';
+    readonly id?: string;
+    readonly roleScopeTagIds?: ['0'];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly deploymentChannel?: 'deviceChannel';
 };
 
 export type CustomConfiguration = CustomConfigurationBase & {
-  readonly '@odata.type'?: '#microsoft.graph.macOSCustomConfiguration';
-  readonly payloadName?: string;
-  readonly payloadFileName?: string;
-  readonly payload?: string;
+    readonly '@odata.type'?: '#microsoft.graph.macOSCustomConfiguration';
+    readonly payloadName?: string;
+    readonly payloadFileName?: string;
+    readonly payload?: string;
 };
 
 export type CustomTrustedCertificate = CustomConfigurationBase & {
-  readonly '@odata.type': '#microsoft.graph.macOSTrustedRootCertificate';
-  certFileName: string;
-  trustedRootCertificate: string;
+    readonly '@odata.type': '#microsoft.graph.macOSTrustedRootCertificate';
+    certFileName: string;
+    trustedRootCertificate: string;
 };

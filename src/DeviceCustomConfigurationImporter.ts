@@ -1,15 +1,16 @@
 import {BaseComponent} from './base';
 import * as pulumi from '@pulumi/pulumi';
 import {
-  ConfigurationPolicyAssignmentInputs,
-  ConfigurationPolicyAssignmentResource,
-  CustomPolicyResource,
+    ConfigurationPolicyAssignmentInputs,
+    ConfigurationPolicyAssignmentResource,
+    CustomPolicyResource,
+    deviceHelpers
 } from './devices';
-import deviceHelpers, {DirectoryMacConfigsImporterArgs} from './devices/helpers';
 import * as types from './types';
+import {DeviceConfiguration} from "./DeviceConfiguration";
 import {CustomConfiguration, CustomTrustedCertificate} from "./devices/types";
 
-export interface DeviceCustomConfigurationImporterArgs extends DirectoryMacConfigsImporterArgs {
+export interface DeviceCustomConfigurationImporterArgs extends deviceHelpers.DirectoryMacConfigsImporterArgs {
     assignments: types.AsInput<Omit<ConfigurationPolicyAssignmentInputs, 'configPolicyId' | 'configType'>>;
 }
 
@@ -22,11 +23,11 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
         const {assignments, ...config} = args;
         const configs = deviceHelpers.createMacConfigs(config);
 
-        const results = configs.map((config, index) => this.createCustomConfig(config));
+        const results = configs.map((config) => this.createDynamicConfig(config));
 
-        this.results = results.map(s => ({
-            id: s.id,
-            resourceName: pulumi.output(s.name)
+        this.results = results.map((s) => ({
+            id: s.id!,
+            resourceName: pulumi.output(s.name),
         }));
     }
 
@@ -34,31 +35,33 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
         return {results: this.results};
     }
 
-    private createCustomConfig(args: CustomConfiguration | CustomTrustedCertificate) {
+    private createDynamicConfig(args: deviceHelpers.DirectoryMacConfigsImporterOutputs) {
         const {assignments} = this.args;
 
-        const policy = new CustomPolicyResource(
-            `${this.name}-${args.displayName}-config`,
-            {
-                config: args,
-            },
-            {...this.opts, parent: this},
-        );
+        if (args.type === 'DeviceConfiguration')
+            return new DeviceConfiguration(`${this.name}-${args.name.replace(/\s+/g, '').toLowerCase()}`, {
+                ...args.config,
+                assignments
+            }, {parent: this});
+
+        return this.createCustomConfig(args.name, args.config);
+    }
+
+    private createCustomConfig(name: string, config: CustomConfiguration | CustomTrustedCertificate) {
+        const {assignments} = this.args;
+
+        const policy = new CustomPolicyResource(`${this.name}-${name.replace(/\s+/g, '').toLowerCase()}-config`, {
+            config,
+        }, {...this.opts, parent: this});
 
         if (assignments) {
-            new ConfigurationPolicyAssignmentResource(
-                `${this.name}-${args.displayName}-assignment`,
-                {
-                    ...assignments,
-                    configPolicyId: policy.id,
-                    configType: 'deviceConfigurations',
-                },
-                {
-                    dependsOn: policy,
-                    deletedWith: policy,
-                    parent: this,
-                },
-            );
+            new ConfigurationPolicyAssignmentResource(`${this.name}-${name.replace(/\s+/g, '').toLowerCase()}-assignment`, {
+                ...assignments,
+                configPolicyId: policy.id,
+                configType: 'deviceConfigurations'
+            }, {
+                dependsOn: policy, deletedWith: policy, parent: this
+            });
         }
 
         return policy;
