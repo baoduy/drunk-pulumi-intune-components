@@ -1,10 +1,11 @@
 import {ClientSecretCredential} from '@azure/identity';
 
 const getAzToken = async () => {
-    const tenantId = process.env.INTUNE_AZURE_TENANT_ID!;
-    const clientId = process.env.INTUNE_AZURE_CLIENT_ID!;
-    const clientSecret = process.env.INTUNE_AZURE_CLIENT_SECRET!;
-    const credential = new ClientSecretCredential(tenantId, clientId, clientSecret,);
+    const tenantId = process.env.INTUNE_AZURE_TENANT_ID ?? process.env.AZURE_TENANT_ID!;
+    const clientId = process.env.INTUNE_AZURE_CLIENT_ID ?? process.env.AZURE_CLIENT_ID!;
+    const clientSecret = process.env.INTUNE_AZURE_CLIENT_SECRET ?? process.env.AZURE_CLIENT_SECRET!;
+
+    const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
     const token = await credential.getToken("https://graph.microsoft.com/.default");
     return token.token;
 }
@@ -36,20 +37,4 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
         return text;
     }
 }
-//
-// export function createDeviceClient() {
-//     const tenantId = process.env.INTUNE_AZURE_TENANT_ID!;
-//     const clientId = process.env.INTUNE_AZURE_CLIENT_ID!;
-//     const clientSecret = process.env.INTUNE_AZURE_CLIENT_SECRET!;
-//
-//     // @azure/identity
-//     const credential = new ClientSecretCredential(tenantId, clientId, clientSecret,);
-//
-// // @microsoft/kiota-authentication-azure
-//     const authProvider = new AzureIdentityAuthenticationProvider(credential, ["https://graph.microsoft.com/.default"]);
-//
-//     const requestAdapter = new FetchRequestAdapter(authProvider);
-//     const client = createGraphBetaServiceClient(requestAdapter);
-//     return client.deviceManagement;
-// }
-//
+
