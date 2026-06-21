@@ -34,6 +34,8 @@ export class DeviceCustomConfiguration extends BaseComponent<DeviceCustomConfigu
         }
 
         this.id = policy.id;
+
+        this.registerOutputs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {

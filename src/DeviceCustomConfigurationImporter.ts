@@ -29,6 +29,8 @@ export class DeviceCustomConfigurationImporter extends BaseComponent<DeviceCusto
             id: s.id!,
             resourceName: pulumi.output(s.name),
         }));
+
+        this.registerOutputs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
