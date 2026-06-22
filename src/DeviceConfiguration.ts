@@ -34,6 +34,8 @@ export class DeviceConfiguration extends BaseComponent<DeviceConfigurationArgs> 
         }
 
         this.id = policy.id;
+
+        this.registerOutputs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
