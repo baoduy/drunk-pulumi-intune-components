@@ -50,6 +50,8 @@ export class IntuneManagement extends BaseComponent<IntuneManagementArgs> {
         this.createPlatformRestrictions();
         this.createCorporateDeviceIdentifiers();
         this.createDeviceCatalogs();
+
+        this.registerOutputs();
     }
 
     public getOutputs(): pulumi.Inputs | pulumi.Output<pulumi.Inputs> {
