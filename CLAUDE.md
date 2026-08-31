@@ -36,8 +36,9 @@ pnpm run update                # npm-check-updates -u && pnpm install
   package (`src/index.ts` only exports `IntuneManagement` and `devices`) — treat that file as stale unless
   you're updating it alongside a real change.
 - Graph API calls resolve credentials via `createCredential` in `src/helpers.ts`: if `INTUNE_AZURE_TENANT_ID`,
-  `INTUNE_AZURE_CLIENT_ID` and `INTUNE_AZURE_CLIENT_SECRET` are **all three** set, an explicit
-  `ClientSecretCredential` is built from them; otherwise (including any partial mix with `AZURE_*` names)
+  `INTUNE_AZURE_CLIENT_ID` and `INTUNE_AZURE_CLIENT_SECRET` are **all three set and non-empty**, an explicit
+  `ClientSecretCredential` is built from them; otherwise (including any partial mix, or any of the three set
+  but empty, with `AZURE_*` names)
   `DefaultAzureCredential` is used, which reads the unprefixed `AZURE_*` vars and also supports managed
   identity, workload identity, Azure CLI login, and OIDC federation. `.devcontainer/.env-sample` lists the
   full env shape used for local dev.

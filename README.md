@@ -1,15 +1,13 @@
 # drunk-pulumi-intune-components
 
-The Microsoft Intune Pulumi Components
-
-1. Import Microsoft Intune Organization
+The Microsoft Intune Pulumi Components, including importing a Microsoft Intune Organization.
 
 ## Authentication
 
 Graph API calls support two credential shapes:
 
 - **Explicit client secret** — set all three `INTUNE_AZURE_TENANT_ID`, `INTUNE_AZURE_CLIENT_ID` and
-  `INTUNE_AZURE_CLIENT_SECRET` together.
+  `INTUNE_AZURE_CLIENT_SECRET` together, and all three must be non-empty.
 - **Identity-based (preferred)** — set none of the `INTUNE_AZURE_*` vars and let `DefaultAzureCredential`
   resolve the identity, including via OIDC federation (GitHub Actions / Azure Pipelines) or managed
   identity in CI, so the stack needs no long-lived application secret.
