@@ -10,7 +10,7 @@ export interface DeviceCatalogInputs {
 export interface DeviceCatalogOutputs extends DeviceCatalogInputs {
 }
 
-class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCatalogOutputs> {
+export class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCatalogOutputs> {
     constructor(private name: string) {
         super();
     }

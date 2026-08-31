@@ -11,7 +11,7 @@ export interface CustomPolicyInputs {
 export interface CustomPolicyOutputs extends CustomPolicyInputs {
 }
 
-class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicyOutputs> {
+export class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicyOutputs> {
     constructor(private name: string) {
         super();
     }

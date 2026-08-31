@@ -19,7 +19,7 @@ export interface MacCompliancePolicyInputs
 export interface MacCompliancePolicyOutputs extends MacCompliancePolicyInputs {
 }
 
-class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs, MacCompliancePolicyOutputs> {
+export class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs, MacCompliancePolicyOutputs> {
     constructor(private name: string) {
         super();
     }

@@ -13,7 +13,7 @@ export interface CompliancePolicyAssignmentInputs {
 export interface CompliancePolicyAssignmentOutputs extends CompliancePolicyAssignmentInputs {
 }
 
-class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAssignmentInputs, CompliancePolicyAssignmentOutputs> {
+export class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAssignmentInputs, CompliancePolicyAssignmentOutputs> {
     constructor(private name: string) {
         super();
     }

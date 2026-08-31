@@ -11,7 +11,7 @@ export interface ConfigurationPolicyInputs
 export interface ConfigurationPolicyOutputs extends ConfigurationPolicyInputs {
 }
 
-class ConfigurationPolicyProvider extends BaseProvider<ConfigurationPolicyInputs, ConfigurationPolicyOutputs> {
+export class ConfigurationPolicyProvider extends BaseProvider<ConfigurationPolicyInputs, ConfigurationPolicyOutputs> {
     constructor(private name: string) {
         super();
     }
