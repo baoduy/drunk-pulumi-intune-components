@@ -66,6 +66,7 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: string, props: MacCompliancePolicyInputs): Promise<void> {
         await deleteOrWarn('deviceCompliancePolicies', id, () =>
             graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE'));

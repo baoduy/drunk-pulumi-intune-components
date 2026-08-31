@@ -66,6 +66,9 @@ class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAs
         return this.create(news);
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
+    // Graph has no DELETE for assignments — POSTing an empty `assignments` array is the documented unassign;
+    // compliancePolicyId comes from props, not the Pulumi resource id, since assignments have no id of their own
     public async delete(id: string, props: CompliancePolicyAssignmentOutputs): Promise<void> {
         await deleteOrWarn('deviceCompliancePolicies assignment', props.compliancePolicyId, () =>
             graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${props.compliancePolicyId}/assign`, 'POST', {assignments: []}));

@@ -33,6 +33,7 @@ class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCata
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: pulumi.ID, props: DeviceCatalogOutputs): Promise<void> {
         await deleteOrWarn('deviceCategories', id, () =>
             graphRequest(`beta/deviceManagement/deviceCategories/${id}`, 'DELETE'));

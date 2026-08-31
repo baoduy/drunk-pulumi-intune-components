@@ -42,6 +42,7 @@ class ConfigurationPolicyProvider extends BaseProvider<ConfigurationPolicyInputs
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: string, props: ConfigurationPolicyInputs): Promise<void> {
         await deleteOrWarn('configurationPolicies', id, () =>
             graphRequest(`beta/deviceManagement/configurationPolicies('${id}')`, 'DELETE'));

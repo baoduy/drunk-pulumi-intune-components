@@ -48,6 +48,8 @@ class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIde
         return this.create(news);
     }
 
+    // Unimplemented, not swallowed: the commented-out $batch approach below was never verified
+    // against Graph, so destroy intentionally leaves imported device identities in place (DRK-778).
     public async delete(id: string, props: CorporateDeviceIdentifiersInputs): Promise<void> {
         // const currentList = await graphRequest(`beta/deviceManagement/importedDeviceIdentities`, 'GET');
         // await graphRequest(

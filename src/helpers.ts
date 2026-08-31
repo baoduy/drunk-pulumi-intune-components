@@ -28,6 +28,7 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
         const error = new Error(
             `Graph ${method} ${path} failed: ${response.status} ${response.statusText}\n${errorText}`
         );
+        // status attached so callers like deleteOrWarn can tell 404 (already gone) from a real failure
         (error as any).status = response.status;
         throw error;
     }
@@ -40,6 +41,21 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
     }
 }
 
+/**
+ * Runs a Graph delete `action` and never rejects (DRK-778).
+ *
+ * Deletes are intentionally non-blocking: a Graph failure here must not abort
+ * `pulumi destroy` for the rest of the stack. On failure the resource is
+ * already dropped from Pulumi state — the caller has no way to retry it — so
+ * this logs an actionable message and the operator removes the tenant object
+ * by hand. This is the requester's explicit decision on DRK-778, not an
+ * oversight; `create` and `update` deliberately still rethrow on failure.
+ * A 404 means the object is already gone and is treated as success, not an error.
+ *
+ * @param resource human-readable resource kind, used only in the log line
+ * @param id the Graph/Pulumi id being deleted, used only in the log line
+ * @param action performs the actual Graph DELETE/unassign call
+ */
 export const deleteOrWarn = async (resource: string, id: string, action: () => Promise<any>): Promise<void> => {
     try {
         await action();
