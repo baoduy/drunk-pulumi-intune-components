@@ -15,6 +15,7 @@ export interface ConfigurationPolicyAssignmentInputs {
 export interface ConfigurationPolicyAssignmentOutputs extends ConfigurationPolicyAssignmentInputs {
 }
 
+/** @internal */
 export class ConfigurationPolicyAssignmentProvider extends BaseProvider<ConfigurationPolicyAssignmentInputs, ConfigurationPolicyAssignmentOutputs> {
     constructor(private name: string) {
         super();
