@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import * as types from '../types';
 
 export interface DeviceCatalogInputs {
@@ -10,7 +10,7 @@ export interface DeviceCatalogInputs {
 export interface DeviceCatalogOutputs extends DeviceCatalogInputs {
 }
 
-class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCatalogOutputs> {
+export class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCatalogOutputs> {
     constructor(private name: string) {
         super();
     }
@@ -33,11 +33,10 @@ class DeviceCatalogProvider extends BaseProvider<DeviceCatalogInputs, DeviceCata
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: pulumi.ID, props: DeviceCatalogOutputs): Promise<void> {
-        await graphRequest(
-            `beta/deviceManagement/deviceCategories/${id}`,
-            'DELETE',
-        ).catch(error => console.error('deviceCategories', error));
+        await deleteOrWarn('deviceCategories', id, () =>
+            graphRequest(`beta/deviceManagement/deviceCategories/${id}`, 'DELETE'));
     }
 }
 

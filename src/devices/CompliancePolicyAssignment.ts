@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import * as types from '../types';
 
 export interface CompliancePolicyAssignmentInputs {
@@ -13,7 +13,8 @@ export interface CompliancePolicyAssignmentInputs {
 export interface CompliancePolicyAssignmentOutputs extends CompliancePolicyAssignmentInputs {
 }
 
-class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAssignmentInputs, CompliancePolicyAssignmentOutputs> {
+/** @internal */
+export class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAssignmentInputs, CompliancePolicyAssignmentOutputs> {
     constructor(private name: string) {
         super();
     }
@@ -64,6 +65,14 @@ class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAs
         news: CompliancePolicyAssignmentInputs,
     ): Promise<pulumi.dynamic.UpdateResult> {
         return this.create(news);
+    }
+
+    // non-blocking by design, see deleteOrWarn (DRK-778)
+    // Graph has no DELETE for assignments — POSTing an empty `assignments` array is the documented unassign;
+    // compliancePolicyId comes from props, not the Pulumi resource id, since assignments have no id of their own
+    public async delete(id: string, props: CompliancePolicyAssignmentOutputs): Promise<void> {
+        await deleteOrWarn('deviceCompliancePolicies assignment', props.compliancePolicyId, () =>
+            graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${props.compliancePolicyId}/assign`, 'POST', {assignments: []}));
     }
 }
 

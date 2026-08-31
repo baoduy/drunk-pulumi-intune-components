@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import {deviceHelpers} from './index';
 import {MacDeviceCompliance} from './types';
 import * as types from '../types';
@@ -19,7 +19,8 @@ export interface MacCompliancePolicyInputs
 export interface MacCompliancePolicyOutputs extends MacCompliancePolicyInputs {
 }
 
-class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs, MacCompliancePolicyOutputs> {
+/** @internal */
+export class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs, MacCompliancePolicyOutputs> {
     constructor(private name: string) {
         super();
     }
@@ -66,9 +67,10 @@ class MacCompliancePolicyProvider extends BaseProvider<MacCompliancePolicyInputs
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: string, props: MacCompliancePolicyInputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE')
-            .catch(error => console.error('deviceCompliancePolicies', error));
+        await deleteOrWarn('deviceCompliancePolicies', id, () =>
+            graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${id}`, 'DELETE'));
     }
 }
 
