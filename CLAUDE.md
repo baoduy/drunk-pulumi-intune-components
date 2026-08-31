@@ -35,9 +35,13 @@ pnpm run update                # npm-check-updates -u && pnpm install
   the library's public types. It currently imports `OriginCertResource`, which doesn't exist in this
   package (`src/index.ts` only exports `IntuneManagement` and `devices`) — treat that file as stale unless
   you're updating it alongside a real change.
-- Graph API calls need `INTUNE_AZURE_TENANT_ID`/`AZURE_TENANT_ID`, `INTUNE_AZURE_CLIENT_ID`/`AZURE_CLIENT_ID`,
-  `INTUNE_AZURE_CLIENT_SECRET`/`AZURE_CLIENT_SECRET` (the `INTUNE_*` var wins when both are set — see
-  `getAzToken` in `src/helpers.ts`). `.devcontainer/.env-sample` lists the full env shape used for local dev.
+- Graph API calls resolve credentials via `createCredential` in `src/helpers.ts`: if `INTUNE_AZURE_TENANT_ID`,
+  `INTUNE_AZURE_CLIENT_ID` and `INTUNE_AZURE_CLIENT_SECRET` are **all three set and non-empty**, an explicit
+  `ClientSecretCredential` is built from them; otherwise (including any partial mix, or any of the three set
+  but empty, with `AZURE_*` names)
+  `DefaultAzureCredential` is used, which reads the unprefixed `AZURE_*` vars and also supports managed
+  identity, workload identity, Azure CLI login, and OIDC federation. `.devcontainer/.env-sample` lists the
+  full env shape used for local dev.
 
 ## Architecture
 

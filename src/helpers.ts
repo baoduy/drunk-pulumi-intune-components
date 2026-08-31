@@ -1,12 +1,27 @@
-import {ClientSecretCredential} from '@azure/identity';
+import {ClientSecretCredential, DefaultAzureCredential, TokenCredential} from '@azure/identity';
+
+const GRAPH_SCOPE = 'https://graph.microsoft.com/.default';
+
+const createCredential = (): TokenCredential => {
+    const tenantId = process.env.INTUNE_AZURE_TENANT_ID;
+    const clientId = process.env.INTUNE_AZURE_CLIENT_ID;
+    const clientSecret = process.env.INTUNE_AZURE_CLIENT_SECRET;
+
+    if (tenantId && clientId && clientSecret) {
+        return new ClientSecretCredential(tenantId, clientId, clientSecret);
+    }
+
+    return new DefaultAzureCredential();
+}
+
+let credential: TokenCredential | undefined;
 
 const getAzToken = async () => {
-    const tenantId = process.env.INTUNE_AZURE_TENANT_ID ?? process.env.AZURE_TENANT_ID!;
-    const clientId = process.env.INTUNE_AZURE_CLIENT_ID ?? process.env.AZURE_CLIENT_ID!;
-    const clientSecret = process.env.INTUNE_AZURE_CLIENT_SECRET ?? process.env.AZURE_CLIENT_SECRET!;
-
-    const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-    const token = await credential.getToken("https://graph.microsoft.com/.default");
+    credential ??= createCredential();
+    const token = await credential.getToken(GRAPH_SCOPE);
+    if (!token) {
+        throw new Error(`Unable to resolve an Azure credential for scope "${GRAPH_SCOPE}"`);
+    }
     return token.token;
 }
 
