@@ -27,6 +27,7 @@ export interface DefaultPlatformRestrictionsOutputs extends DefaultPlatformRestr
 // No delete method: deviceEnrollmentConfigurations/<intuneId>_DefaultPlatformRestrictions and
 // _DefaultLimit are tenant built-ins Graph does not permit deleting. The only meaningful teardown
 // would be resetting them to defaults, which is an unmade product decision (DRK-778).
+/** @internal */
 export class DefaultPlatformRestrictionsProvider extends BaseProvider<
     DefaultPlatformRestrictionsInputs,
     DefaultPlatformRestrictionsOutputs
