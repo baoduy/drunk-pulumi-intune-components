@@ -18,7 +18,8 @@ export interface CorporateDeviceIdentifiersInputs {
 export interface CorporateDeviceIdentifiersOutputs extends CorporateDeviceIdentifiersInputs {
 }
 
-class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIdentifiersInputs, CorporateDeviceIdentifiersOutputs> {
+/** @internal */
+export class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIdentifiersInputs, CorporateDeviceIdentifiersOutputs> {
     constructor(private name: string) {
         super();
     }
@@ -48,6 +49,8 @@ class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIde
         return this.create(news);
     }
 
+    // Unimplemented, not swallowed: the commented-out $batch approach below was never verified
+    // against Graph, so destroy intentionally leaves imported device identities in place (DRK-778).
     public async delete(id: string, props: CorporateDeviceIdentifiersInputs): Promise<void> {
         // const currentList = await graphRequest(`beta/deviceManagement/importedDeviceIdentities`, 'GET');
         // await graphRequest(

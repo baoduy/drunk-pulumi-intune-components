@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import * as types from '../types';
 import {CustomConfiguration, CustomTrustedCertificate} from "./types";
 
@@ -11,7 +11,8 @@ export interface CustomPolicyInputs {
 export interface CustomPolicyOutputs extends CustomPolicyInputs {
 }
 
-class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicyOutputs> {
+/** @internal */
+export class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicyOutputs> {
     constructor(private name: string) {
         super();
     }
@@ -46,9 +47,10 @@ class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicy
         return {outs: news};
     }
 
+    // non-blocking by design, see deleteOrWarn (DRK-778)
     public async delete(id: string, props: CustomPolicyOutputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/deviceConfigurations/${id}`, 'DELETE')
-            .catch(error => console.error('deviceConfigurations', error));
+        await deleteOrWarn('deviceConfigurations', id, () =>
+            graphRequest(`beta/deviceManagement/deviceConfigurations/${id}`, 'DELETE'));
     }
 }
 

@@ -1,39 +1,14 @@
 {
   "enabledPlugins": {
-    "caveman@caveman": true,
+    "caveman@caveman": false,
     "claude-code-setup@claude-plugins-official": true,
     "claude-smart@reflexioai": true,
-    "context-mode@context-mode": true,
+    "context-mode@context-mode": false,
     "learning-output-style@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
-    "team-share@drunkcoding": true
+    "team-share@drunkcoding": false
   },
   "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "github",
-        "repo": "JuliusBrussee/caveman"
-      },
-      "autoUpdate": true
-    },
-    "context-mode": {
-      "source": {
-        "source": "github",
-        "repo": "mksglu/context-mode"
-      },
-      "autoUpdate": true
-    },
-    "reflexioai": {
-      "source": {
-        "source": "github",
-        "repo": "ReflexioAI/claude-smart"
-      }
-    },
-    "drunkcoding": {
-      "source": {
-        "source": "github",
-        "repo": "baoduy/agents-and-skills"
-      }
-    }
+    
   }
 }
