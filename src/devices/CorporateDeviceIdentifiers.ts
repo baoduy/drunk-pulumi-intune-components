@@ -18,7 +18,7 @@ export interface CorporateDeviceIdentifiersInputs {
 export interface CorporateDeviceIdentifiersOutputs extends CorporateDeviceIdentifiersInputs {
 }
 
-class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIdentifiersInputs, CorporateDeviceIdentifiersOutputs> {
+export class CorporateDeviceIdentifiersProvider extends BaseProvider<CorporateDeviceIdentifiersInputs, CorporateDeviceIdentifiersOutputs> {
     constructor(private name: string) {
         super();
     }
