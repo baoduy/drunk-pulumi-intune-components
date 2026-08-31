@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import * as types from '../types';
 
 export interface CompliancePolicyAssignmentInputs {
@@ -64,6 +64,11 @@ class CompliancePolicyAssignmentProvider extends BaseProvider<CompliancePolicyAs
         news: CompliancePolicyAssignmentInputs,
     ): Promise<pulumi.dynamic.UpdateResult> {
         return this.create(news);
+    }
+
+    public async delete(id: string, props: CompliancePolicyAssignmentOutputs): Promise<void> {
+        await deleteOrWarn('deviceCompliancePolicies assignment', props.compliancePolicyId, () =>
+            graphRequest(`beta/deviceManagement/deviceCompliancePolicies/${props.compliancePolicyId}/assign`, 'POST', {assignments: []}));
     }
 }
 

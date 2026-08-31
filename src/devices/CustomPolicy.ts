@@ -1,6 +1,6 @@
 import * as pulumi from '@pulumi/pulumi';
 import {BaseProvider, BaseResource} from '../base';
-import {graphRequest} from '../helpers';
+import {graphRequest, deleteOrWarn} from '../helpers';
 import * as types from '../types';
 import {CustomConfiguration, CustomTrustedCertificate} from "./types";
 
@@ -47,8 +47,8 @@ class CustomPolicyProvider extends BaseProvider<CustomPolicyInputs, CustomPolicy
     }
 
     public async delete(id: string, props: CustomPolicyOutputs): Promise<void> {
-        await graphRequest(`beta/deviceManagement/deviceConfigurations/${id}`, 'DELETE')
-            .catch(error => console.error('deviceConfigurations', error));
+        await deleteOrWarn('deviceConfigurations', id, () =>
+            graphRequest(`beta/deviceManagement/deviceConfigurations/${id}`, 'DELETE'));
     }
 }
 

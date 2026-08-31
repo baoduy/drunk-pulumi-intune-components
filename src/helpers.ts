@@ -25,9 +25,11 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
 
     if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(
-            `Error reading wrap app: ${response.status} ${response.statusText}\nError: ${errorText}`
+        const error = new Error(
+            `Graph ${method} ${path} failed: ${response.status} ${response.statusText}\n${errorText}`
         );
+        (error as any).status = response.status;
+        throw error;
     }
 
     const text = (await response.text()).trim();
@@ -35,6 +37,17 @@ export const graphRequest = async (path: string, method: 'GET' | 'POST' | 'PUT' 
         return text ? JSON.parse(text) : text;
     } catch {
         return text;
+    }
+}
+
+export const deleteOrWarn = async (resource: string, id: string, action: () => Promise<any>): Promise<void> => {
+    try {
+        await action();
+    } catch (error: any) {
+        if (error?.status === 404) return;
+        console.error(
+            `[intune] Failed to delete ${resource} '${id}'. Pulumi has removed it from state — delete it manually in the Intune portal. Cause: ${error?.message ?? error}`
+        );
     }
 }
 
